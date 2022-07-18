@@ -1,0 +1,18 @@
+# IP地址及端口
+ip_address=0.0.0.0:5813
+#ip_address=127.0.0.1:5898  
+
+# https证书   
+cert_path=tls/cert.pem
+key_path=tls/key.rsa    
+# cert_path=/etc/letsencrypt/live/xueyigou.cn/fullchain.pem
+# key_path=/etc/letsencrypt/live/xueyigou.cn/privkey.pem
+
+# postgres数据库配置: DATABASE_URL=mysql://[user[:password]@]host/database_name
+DATABASE_URL=postgres://user:passwd@127.0.0.1:5432/gwmc
+
+# 网址:用"//"开头，不用区分“https://"与”http://“
+BASE_URL=//127.0.0.1:5813/
+
+# 日志记录模式：Off,Error,Warn,Info,Debug,Trace
+RUST_LOG=Debug

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>内容</p>
+    {{#each list}}
+    <h3>{{title}}</h3>
+    <p>
+        ID:{{id}} 起拍价：{{price_base}} lng:{{lng}} 评估价{{assess_price}} 保证金{{margin}}
+        图片：{{list_img}} 开拍时间{{start_time}} 结束时间{{end_time}}
+        <br> 坐标:经度{{lng}} - 纬度{{lat}}
+        <br>处置法院：{{disposal_unit}} 车在哪：{{address}}
+        <br> 拍卖URL：{{external_url}}
+        <br> 所属平台（1.淘宝、2.京东）:{{belong}}
+        <br> 拍卖阶段:{{stage}} 是否推送{{push}}
+        <br> {{create_time}}
+        {{#if list_img}}
+        有图片
+        {{~^~}}
+        Empty
+        {{~/if~}}
+
+    </p>
+    <hr>
+    {{/each}}
+
+</body>
+
+</html>
