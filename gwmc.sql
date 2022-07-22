@@ -6,7 +6,7 @@
 --  法拍详情页：
 
 --   推荐文字说明
-
+ 
 -- 法拍车文章推荐lawsuit_autocar_article
 CREATE TABLE lawsuit_autocar_article(
   "laid" SERIAL PRIMARY KEY REFERENCES lawsuit_autocar(id),
@@ -176,7 +176,7 @@ COMMENT ON COLUMN lawsuit_reptile.external_url IS '拍卖详情URL';
 COMMENT ON COLUMN lawsuit_reptile.belong IS '所属平台（1.淘宝、2.京东）';
 COMMENT ON COLUMN lawsuit_reptile.stage IS '拍卖阶段（一拍、二拍、变卖、撤回）';
 COMMENT ON COLUMN lawsuit_reptile.status IS '状态（1待开拍、2竞拍中、已结束:3成交，4流拍、0无效或撤回）';
-COMMENT ON COLUMN lawsuit_reptile.push IS '是否推送';
+COMMENT ON COLUMN lawsuit_reptile.push IS '是否已推送文章';
 COMMENT ON COLUMN lawsuit_reptile.create_time IS '创建时间';
 
 -- 爬虫相册记录表

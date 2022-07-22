@@ -129,7 +129,7 @@ pub fn get_list() -> Vec<LawsuitReptile> {
     //         return temp;
     //     });
 
-    let query = lawsuit_reptile.order_by(id.desc());
+    let query = lawsuit_reptile.filter(push.eq(false)).order_by(id.desc());
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("list查询SQL：{:?}", sql);
 
@@ -141,6 +141,16 @@ pub fn get_list() -> Vec<LawsuitReptile> {
         });
 
     list
+}
+
+// 更改推送状态
+pub fn update_push(pkey: i32, is_push: bool) {
+    let query = diesel::update(lawsuit_reptile.find(pkey)).set(push.eq(is_push));
+    let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
+    log::debug!("update_push=>SQL：{:?}", sql);
+
+    let conn = get_connection();
+    let update_result=query.get_result::<LawsuitReptile>(&conn);
 }
 
 // 新插入数据结构体
