@@ -256,7 +256,7 @@
                             <div class="panel-heading">
 
                                 <a href="javascript:history.back(-1);" class="btn btn-default right">返回</a>
-                                <h4>撰写法拍车推荐文章</h4>
+                                <h4>推荐:<a href="{{autocar.external_url}}" target="_blank">{{autocar.title}}</a></h4>
 
                             </div>
                             <div class="panel-body" style="padding-bottom:30px;">
@@ -269,7 +269,7 @@
                                                 <input type="text" name="title" value="{{autocar.title}}"
                                                     placeholder="标题" class="form-control">
                                             </div>
-                                        </div> --> 
+                                        </div> -->
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label text-right">法拍车标题</label>
                                             <div class="input-group" style="margin-top: -15px;">
@@ -278,6 +278,20 @@
                                                 <input type="text" name="title" value="{{autocar.title}}"
                                                     class="form-control" placeholder="标题"
                                                     aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">处置单位</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" value="{{autocar.disposal_unit}}"
+                                                    class="form-control" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">标的物所在</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" value="{{autocar.address}}" class="form-control"
+                                                    disabled="">
                                             </div>
                                         </div>
                                         <div class="form-group has-warning">
@@ -314,19 +328,98 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">处置单位</label>
+                                            <label class="col-sm-2 control-label text-right">车牌号</label>
                                             <div class="col-sm-10">
-                                                <input type="text" value="{{autocar.disposal_unit}}"
-                                                    class="form-control" disabled="">
+                                                <input type="text" name="license" value="" placeholder="车牌号"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group has-success">
+                                            <label class="col-sm-2 control-label text-right">已行驶公里数</label>
+                                            <div class="input-group" style="margin-top: -15px;">
+                                                <input type="number" name="kilometer" value="0" placeholder="18"
+                                                    aria-describedby="basic-addon2" class="form-control">
+                                                <span class="input-group-addon" id="basic-addon2">公里</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">标的物所在</label>
+
+                                            <label class="col-sm-2 control-label text-right">变速箱</label>
                                             <div class="col-sm-10">
-                                                <input type="text" value="{{autocar.address}}" class="form-control"
-                                                    disabled="">
+                                                <input type="text" name="gearbox" value="" placeholder="手动6档"
+                                                    class="form-control">
                                             </div>
                                         </div>
+                                        <div class="form-group">
+
+                                            <label class="col-sm-2 control-label text-right">排放阶段</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="emission" value="" placeholder="例:国六"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">燃料</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="fuel_type" value=""
+                                                    placeholder="汽油,柴油,纯电,油电混合,氢能电池,氢能" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">通用车型号</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="universal_model" value=""
+                                                    placeholder="2022年款手动四驱柴油" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">注册登记</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="registration" value="" placeholder="2023-01-18"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">生产日期</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="production_date" value=""
+                                                    placeholder="2018-08-18" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">厂家车型</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="autocar_model" value="" placeholder="厂家车型"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">VIM</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="vim" value="" placeholder="车架号"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">发动机号</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="engine_number" value="" placeholder="发动机号"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label text-right">违章</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="violating" value="" placeholder="扣1分,无罚款"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+
+
 
 
                                         <div class="form-group">
@@ -334,13 +427,14 @@
                                                 封面图-列表图<br>尺寸：<b style="color: red;">176*255</b>
                                             </label>
                                             <div class="col-sm-10">
-                                                <input type="file" name="goods_img">
+                                                <input type="file" name="goods_img" value="ddd89999">
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label text-right">是否推送</label>
+                                        <div class="form-group"><label
+                                                class="col-sm-2 control-label text-right">是否推送</label>
                                             <div class="col-sm-10">
-                                                <input type="checkbox" id="show" checked >
+                                                <input type="checkbox" id="show" checked>
                                                 <input type="hidden" name="push" value="true">
                                             </div>
                                         </div>
@@ -383,8 +477,9 @@
                                                         value="{{autocar.external_url}}"> <!-- 拍卖详情URL -->
                                                     <input type="hidden" name="belong" value="{{autocar.belong}}">
                                                     <!-- 所属平台（1.淘宝、2.京东） -->
-                                                    <input type="hidden" name="stage"
-                                                        value="{{autocar.stage}}"> <!-- 拍卖阶段（一拍、二拍、变卖、撤回） -->
+                                                    <input type="hidden" name="stage" value="{{autocar.stage}}">
+                                                    <!-- 拍卖阶段（一拍、二拍、变卖、撤回） -->
+                                                    <input type="hidden" name="list_img" value="{{photo.external_middle}}">
 
 
                                                     <button class="btn btn-info btn-success" type="Submit">
@@ -438,21 +533,21 @@
             <script type="text/javascript">
                 $(function () {
 
-                    $("#show").bootstrapSwitch({  
-                        onText:'推送',  
-                        offText:'隐藏' ,
-                        onColor:"info",
-                        offColor:"danger",  
-                        size:"small",
-                        onSwitchChange:function(event,state){  
-                            if(state==true){  
+                    $("#show").bootstrapSwitch({
+                        onText: '推送',
+                        offText: '隐藏',
+                        onColor: "info",
+                        offColor: "danger",
+                        size: "small",
+                        onSwitchChange: function (event, state) {
+                            if (state == true) {
                                 // alert('显示');
                                 $("input[name='push']").val("true");
-                            }else{  
+                            } else {
                                 // alert('不显示');
                                 $("input[name='push']").val("false");
-                            } 
-                        }  
+                            }
+                        }
                     });
 
                     /*商品图(列表商品时显示176*255))*/
@@ -462,7 +557,7 @@
                         changeInput: ' ',
                         theme: 'thumbnails',
                         enableApi: true,
-                        addMore: true,      //true为多文件，false为单个文件
+                        addMore: false,      //true为多文件，false为单个文件
                         thumbnails: {
                             box: '<div class="fileuploader-items">\
 	                      <ul class="fileuploader-items-list">\
@@ -529,11 +624,11 @@
 
                         files: [
                             {
-                                name: '<?=$edit->goods_img?>',
+                                name: '<?=$edit->list_img?>',
                                 type: 'image/jpg',
-                                file: '<?=base_url($edit->goods_img)?>',
+                                file: '{{photo.external_middle}}',
                                 data: {
-                                    url: '<?=base_url($edit->goods_img)?>'
+                                    url: '<?=base_url($edit->list_img)?>'
                                 }
                             },
                         ],

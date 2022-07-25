@@ -40,6 +40,11 @@ pub async fn detail(id: i32) -> std::result::Result<impl Reply, Rejection> {
         Some(autocar) => {
             let mut data = Map::new();
             data.insert("autocar".to_string(), to_json(autocar));
+            // 去相册取得默认列表图
+            use crate::models::lawsuit_reptile_photo_model;
+            let photo = lawsuit_reptile_photo_model::get_front_cover(id);
+            data.insert("photo".to_string(), to_json(photo));
+
             let html = to_html_single("reptile_detail.html", data);
             log::info!("输出详情");
             Ok(warp::reply::html(html))
@@ -55,28 +60,42 @@ pub async fn detail(id: i32) -> std::result::Result<impl Reply, Rejection> {
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct LawsuitAutocarForm {
     pub title: String,
-    pub price_base: f64,        //起拍价
-    pub current_price: f64,     //当前价
-    pub assess_price: f64,      //评估价
-    pub margin: f64,            //保证金
-    pub recommended_price: f64, //最高推荐价
-    pub start_time: String,     //开拍时间
-    pub end_time: String,       //结束时间/
-    pub recommend: i16,         //推荐星数1-10
-    pub address: String,        //标的物地址
-    pub disposal_unit: String,  //处置单位,法院
-    pub external_url: String,   //拍卖详情URL
-    pub belong: i16,            //所属平台（1.淘宝、2.京东）
-    pub stage: String,          //拍卖阶段（一拍、二拍、变卖、撤回）
-    pub push: bool,             //是否推送
-    pub summary: String,        //车摘要
-    pub description: String,    //文章内容
+    pub list_img: String,        //
+    pub price_base: f64,         //起拍价
+    pub current_price: f64,      //当前价
+    pub assess_price: f64,       //评估价
+    pub margin: f64,             //保证金
+    pub recommended_price: f64,  //最高推荐价
+    pub start_time: String,      //开拍时间
+    pub end_time: String,        //结束时间/
+    pub recommend: i16,          //推荐星数1-10
+    pub license: String,         //车牌号
+    pub violating: String,       //是否有违章
+    pub universal_model: String, //通用车型号
+    pub gearbox: String,         //变速箱(手动6档,自动档)
+    pub fuel_type: String,       //燃料:汽油,柴油,纯电,油电混合,氢能电池,氢能
+    pub kilometer: i32,          //已行驶公里数
+    pub registration: String,    //注册登记日期
+    pub production_date: String, //生产日期
+    pub autocar_model: String,   //厂家车型
+    pub vim: String,             //车架号
+    pub engine_number: String,   //发动机号
+    pub emission: String,        //排放阶段
+    pub address: String,         //标的物地址
+    pub disposal_unit: String,   //处置单位,法院
+    pub external_url: String,    //拍卖详情URL
+    pub belong: i16,             //所属平台（1.淘宝、2.京东）
+    pub stage: String,           //拍卖阶段（一拍、二拍、变卖、撤回）
+    pub push: bool,              //是否推送
+    pub summary: String,         //车摘要
+    pub description: String,     //文章内容
 }
 impl LawsuitAutocarForm {
     pub fn validate(&self) -> Result<Self, &'static str> {
         if self.recommended_price < self.price_base {
             return Err("推荐价不能低于起拍价");
         }
+
         Ok(self.clone())
     }
 }
@@ -103,25 +122,101 @@ pub async fn push_lawsuit_autocar(
             let margin = (form.margin * 100.) as i64;
             let recommended_price = (form.recommended_price * 100.) as i64;
 
+            //处理开拍时间:2022-07-26T10:00:00
+            let mut start_time: Option<NaiveDateTime> = None;
+            if !form.start_time.is_empty() {
+                let date_time = chrono::prelude::NaiveDateTime::parse_from_str(
+                    form.start_time.clone().as_str(),
+                    "%Y-%m-%dT%H:%M:%S",
+                );
+                start_time = match date_time {
+                    Ok(date) => Some(date),
+                    Err(err) => {
+                        log::error!("开拍时间转换出错:{}", err);
+                        None
+                    }
+                };
+            }
+            let mut end_time: Option<NaiveDateTime> = None;
+            if !form.end_time.is_empty() {
+                let date_time = chrono::prelude::NaiveDateTime::parse_from_str(
+                    form.end_time.clone().as_str(),
+                    "%Y-%m-%dT%H:%M:%S",
+                );
+                end_time = match date_time {
+                    Ok(date) => Some(date),
+                    Err(err) => {
+                        log::error!("开拍时间转换出错:{}", err);
+                        None
+                    }
+                };
+            }
+
+            //
+            use chrono::{NaiveDate, NaiveDateTime};
+            let mut registration: Option<NaiveDate> = None;
+            if !form.registration.is_empty() {
+                let tem = chrono::prelude::NaiveDate::parse_from_str(
+                    form.registration.clone().as_str(),
+                    "%Y-%m-%d",
+                );
+                registration = match tem {
+                    Ok(date) => Some(date),
+                    Err(err) => {
+                        log::error!("车辆注册登记日期格式转换出错:{}", err);
+                        None
+                    }
+                };
+            }
+            let mut production_date: Option<NaiveDate> = None;
+            if !form.production_date.is_empty() {
+                let tem = chrono::prelude::NaiveDate::parse_from_str(
+                    form.production_date.clone().as_str(),
+                    "%Y-%m-%d",
+                );
+                production_date = match tem {
+                    Ok(date) => Some(date),
+                    Err(err) => {
+                        log::error!("车辆生产日期格式转换出错:{}", err);
+                        None
+                    }
+                };
+            }
+            //处理公里数
+            let mut kilometer: Option<i32> = None;
+            if form.kilometer > 0 {
+                kilometer = Some(form.kilometer);
+            }
+
             let mut data = NewLawsuitAutocar {
-                acid: None,                                      //车辆分类表ID
-                title: form.title.clone().trim().to_string(),    //标题
-                summary: form.summary.clone(),                   //车摘要
-                list_img: None,                                  //封面图-列表图
-                visit: 0,                                        //浏览次数
-                price_base: Cents(price_base),                   //起拍价
-                current_price: Cents(current_price),             //当前价
-                assess_price: Cents(assess_price),               //评估价
-                margin: Cents(margin),                           //保证金
-                recommended_price: Cents(recommended_price),     //最高推荐价
-                start_time: None,                                //开拍时间
-                end_time: None,                                  //结束时间
-                recommend: form.recommend,                       //推荐星数1-10
-                address: Some(form.address.clone()),             //标地物详细地址
+                title: form.title.clone().trim().to_string(), //标题
+                summary: form.summary.clone(),                //车摘要
+                list_img: Some(form.list_img.clone()),        //封面图-列表图
+                license: Some(form.license.clone()),          //车牌号
+                violating: Some(form.violating.clone()),      //违章
+                universal_model: Some(form.universal_model.clone()), //通用车型号
+                gearbox: Some(form.gearbox.clone()),          //变速箱(手动6档,自动档)
+                fuel_type: Some(form.fuel_type.clone()), //燃料:汽油,柴油,纯电,油电混合,氢能电池,氢能
+                kilometer: kilometer,                    //已行驶公里数
+                registration: registration,              //注册登记日期
+                production_date: production_date,        //生产日期
+                autocar_model: Some(form.autocar_model.clone()), //厂家车型
+                vim: Some(form.vim.clone()),             //车架号
+                engine_number: Some(form.engine_number.clone()), //发动机号
+                emission: Some(form.emission.clone()), //排放阶段                         //排放阶段
+                price_base: Cents(price_base),         //起拍价
+                current_price: Cents(current_price),   //当前价
+                assess_price: Cents(assess_price),     //评估价
+                margin: Cents(margin),                 //保证金
+                recommended_price: Cents(recommended_price), //最高推荐价
+                start_time: start_time,                //开拍时间
+                end_time: end_time,                    //结束时间
+                recommend: form.recommend,             //推荐星数1-10
+                address: Some(form.address.clone()),   //标地物详细地址
                 disposal_unit: Some(form.disposal_unit.clone()), //处置单位:所属法院
-                external_url: Some(form.external_url.clone()),   //拍卖详情URL
-                belong: Some(form.belong),                       //所属平台（1.淘宝、2.京东）
-                stage: Some(form.stage.clone()), //拍卖阶段（一拍、二拍、变卖、撤回）
+                external_url: Some(form.external_url.clone()), //拍卖详情URL
+                belong: Some(form.belong),             //所属平台（1.淘宝、2.京东）
+                stage: Some(form.stage.clone()),       //拍卖阶段（一拍、二拍、变卖、撤回）
                 status: 1, //状态（1待开拍、2竞拍中、已结束:3成交，4流拍、0无效或撤回）
                 show: Some(form.push), //是否展示
                 create_time: None,
