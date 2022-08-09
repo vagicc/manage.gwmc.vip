@@ -353,7 +353,7 @@
 
                                 </div>
 
-                                 
+
                             </div>
                             <div class="responsive-table">
 
@@ -369,7 +369,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                         
+
                                         {{#each list}}
                                         <tr>
                                             <td><input type="checkbox" class="icheck" name="checkbox1" /></td>
@@ -393,14 +393,14 @@
                                                     <i class="fa fa-plus-square-o"></i>新增
                                                     <span class="text-muted"></span>
                                                 </a> |
-                                                
+
                                                 {{#if (eq push false)}}
                                                 <a href="{{../base_url}}reptile/detail/{{id}}" target="_blank">
                                                     <i class="fa fa-edit"></i>编写文章
                                                     <span class="text-muted"></span>
                                                 </a> |
                                                 {{/if}}
-                                                
+
                                                 <a style="color: red;" href=""
                                                     onclick="return confirm('是否要删除ID:（用途：）？？');">
                                                     <i class="fa fa-trash-o"></i>删除
@@ -411,7 +411,7 @@
                                                     <span class="text-muted"></span>
                                                 </a>
                                             </td>
-                                            
+
                                         </tr>
                                         {{/each}}
 
@@ -529,7 +529,7 @@
                             <div class="col-md-6">
                                 <div class="pull-right">
 
-                                    <ul class="pagination">
+                                    <!-- <ul class="pagination">
                                         <li>
                                             <a href="#" aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
@@ -545,7 +545,13 @@
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
+                                    </ul> -->
+                                    <ul class="pagination pull-right">
+                                        {{{pages}}}
                                     </ul>
+
+                                   
+
 
                                 </div>
 

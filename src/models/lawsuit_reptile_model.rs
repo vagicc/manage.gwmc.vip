@@ -118,7 +118,68 @@ pub fn get_id(primary: i32) -> Option<LawsuitReptile> {
     }
 }
 
-// 返回所有数据
+/// 取得列表数据
+/// page: Option<u32>  第几页
+/// per: Option<u32>   每页多少条数据,默认为50
+/// 返回（总条数：i64,数据数组，分页html)
+pub fn list_page(page: Option<u32>, per: Option<u32>) -> (i64, Vec<LawsuitReptile>, String) {
+    let mut limit: i64 = 50; //每页取几条数据
+    let mut offset: i64 = 0; //从第0条开始
+
+    if !per.is_none() {
+        limit = per.unwrap() as i64;
+        //u32是无符号整数,也就是大于0
+        // if limit < 1 {
+        //     limit = 1;
+        // }
+    }
+
+    if !page.is_none() && page.unwrap() > 1 {
+        offset = ((page.unwrap() as i64) - 1) * limit;
+        //u32是无符号整数,也就是大于0
+        // if offset < 0 {
+        //     offset = 0;
+        // }
+    }
+
+    let query = lawsuit_reptile.filter(push.eq(false));
+
+    let query_count = query.count();
+    log::debug!(
+        "lawsuit_reptile分页数量查询SQL：{:#?}",
+        diesel::debug_query::<diesel::pg::Pg, _>(&query_count).to_string()
+    );
+
+    let conn = get_connection();
+    let count: i64 = query_count
+        .get_result(&conn)
+        .expect("lawsuit_reptile分页数量查询出错"); //查询总条数
+
+    let mut pages = String::new();
+    let data_null: Vec<LawsuitReptile> = Vec::new();
+    if count <= 0 {
+        return (count, data_null, pages);
+    }
+
+    let query = query
+        .order_by(id.desc())
+        .limit(limit) //取10条数据
+        .offset(offset); //从第0条开始;
+    log::debug!(
+        "lawsuit_reptile分页查询SQL：{:#?}",
+        diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
+    );
+
+    let list = query
+        .get_results::<LawsuitReptile>(&conn)
+        .unwrap_or(data_null);
+
+    // let page = page.unwrap_or(1);
+    pages = crate::common::page("reptile/list", count, page.unwrap_or(1), limit as u32);
+    (count, list, pages)
+}
+
+// 返回所有数据,无分页
 pub fn get_list() -> Vec<LawsuitReptile> {
     let conn = get_connection();
     // let query = lawsuit_reptile
@@ -150,7 +211,7 @@ pub fn update_push(pkey: i32, is_push: bool) {
     log::debug!("update_push=>SQL：{:?}", sql);
 
     let conn = get_connection();
-    let update_result=query.get_result::<LawsuitReptile>(&conn);
+    let update_result = query.get_result::<LawsuitReptile>(&conn);
 }
 
 // 新插入数据结构体

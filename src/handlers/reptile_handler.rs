@@ -6,7 +6,33 @@ use warp::{Rejection, Reply};
 
 type ResultWarp<T> = std::result::Result<T, Rejection>;
 
-// 登录表单
+pub async fn list_page(page: u32) -> ResultWarp<impl Reply> {
+    // log::debug!("抓到要推荐的车列表-分页");
+    let per: u32 = 8; //每页总数
+    let (count, list, pages) = lawsuit_reptile_model::list_page(Some(page), Some(per));
+
+    let mut data = Map::new();
+    data.insert("list_len".to_string(), to_json(count)); //
+    data.insert("list".to_string(), to_json(list)); //
+    data.insert("pages".to_string(), to_json(pages));
+
+    let html = to_html_single("reptile_list.html", data);
+
+    Ok(warp::reply::html(html))
+
+    // let id = 0;
+    // // 判断用户是否登录过
+    // if id == 0 {
+    //     log::info!("输出正常登录");
+    //     Ok(warp::reply::html(html))
+    // } else {
+    //     log::info!("输出404");
+
+    //     Err(warp::reject::not_found()) //返回404页面
+    // }
+}
+
+// 列表无分页-不用了
 pub async fn list() -> ResultWarp<impl Reply> {
     log::info!("抓到要推荐的车列表");
 
@@ -231,7 +257,7 @@ pub async fn push_lawsuit_autocar(
                     article_content: Some(content),
                     create_time: None,
                 };
-                let new_article = new_article.insert();
+                let _new_article = new_article.insert();
             }
 
             // 处理相册

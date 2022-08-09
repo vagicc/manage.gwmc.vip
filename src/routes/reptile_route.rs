@@ -2,11 +2,25 @@ use crate::handlers::reptile_handler;
 use warp::{filters::BoxedFilter, Filter};
 
 pub fn list() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::get()
+    let first = warp::get()
         .and(warp::path!("reptile" / "list"))
         .and(warp::path::end())
-        .and_then(reptile_handler::list)
+        .and_then(|| async { reptile_handler::list_page(1).await });
+
+    warp::get()
+        .and(warp::path("reptile"))
+        .and(warp::path("list"))
+        .and(warp::path::param())
+        .and(warp::path::end())
+        .and_then(reptile_handler::list_page)
+        .or(first)
         .or(detail())
+
+    // warp::get()
+    //     .and(warp::path!("reptile" / "list"))
+    //     .and(warp::path::end())
+    //     .and_then(reptile_handler::list)
+    //     .or(detail())
 }
 
 pub fn detail() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
