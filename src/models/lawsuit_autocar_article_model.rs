@@ -76,3 +76,12 @@ pub fn get_article(id: i32) -> Option<LawsuitAutocarArticle> {
         }
     }
 }
+
+pub fn update_content(id: i32, content: String) {
+    let query = diesel::update(lawsuit_autocar_article.find(id)).set(article_content.eq(content));
+    let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
+    log::debug!("update_content=>SQL：{:?}", sql);
+
+    let conn = get_connection();
+    let update_result = query.get_result::<LawsuitAutocarArticle>(&conn);
+}

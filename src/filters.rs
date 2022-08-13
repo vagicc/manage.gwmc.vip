@@ -1,6 +1,7 @@
 use warp::Filter;
 
 use crate::routes::home_route;
+use crate::routes::lawsuit_autocar_route;
 use crate::routes::login_route;
 use crate::routes::reptile_route;
 
@@ -17,7 +18,13 @@ pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = war
     // let demo = demo_route::all();
 
     let reptile = reptile_route::list();
+    let lawsuit_autocar = lawsuit_autocar_route::list();
 
-    let routes = home.or(dir).or(favicon).or(login).or(reptile);
+    let routes = home
+        .or(dir)
+        .or(favicon)
+        .or(login)
+        .or(reptile)
+        .or(lawsuit_autocar);
     routes
 }

@@ -272,8 +272,14 @@ pub fn page(path: &str, count: i64, page: u32, per: u32) -> String {
         );
     }
 
-    //末页
-    if page < count_page - show_right {
+    //末页,无符号整形的减法会溢出
+    // log::warn!("总页数：{}， 右边页数:{}", count_page, show_right);
+    // // let k = count_page - show_right;
+    // let k = count_page.wrapping_sub(show_right);
+    // println!("wrapping_sub:{:?}", k); //总页数：2， 右边页数:3  wrapping_sub:4294967295
+    // if page < count_page - show_right {
+    if page + show_right < count_page {
+        // if page < count_page.wrapping_sub(show_right) {
         page_html = format!(
             r#"{}
             <li>

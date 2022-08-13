@@ -131,7 +131,7 @@ pub async fn push_lawsuit_autocar(
     id: i32,
     form: LawsuitAutocarForm,
 ) -> std::result::Result<impl Reply, Rejection> {
-    println!("把数据写到lawsuit_reptile表 {:#?}", form);
+    log::debug!("把数据写到lawsuit_reptile表 {:#?}", form);
 
     let input = form.validate();
     match input {
