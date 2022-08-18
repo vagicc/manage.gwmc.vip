@@ -61,6 +61,66 @@ pub async fn list() -> ResultWarp<impl Reply> {
     }
 }
 
+pub async fn new_html() -> ResultWarp<impl Reply> {
+    log::debug!("[调试信息]访问了“/reptile/new”");
+    let html = "欢迎访问<跟我买车>后台首页(Hi Luck)";
+    let mut data = Map::new();
+    let html = to_html_single("reptile_new.html", data);
+    Ok(warp::reply::html(html)) //直接返回html
+                                // Err(warp::reject::not_found())   //错误的返回
+}
+
+#[derive(Debug, Clone, serde::Deserialize)]
+pub struct NewReptile {
+    pub paimai_id: String, //拍卖ID
+    pub belong: String,    //所属平台（1.淘宝、2.京东）
+}
+impl NewReptile {
+    pub fn validate(&self) -> Result<Self, &'static str> {
+        if !self.belong.eq("1") && !self.belong.eq("2") {
+            return Err("所属平台（1.淘宝、2.京东）");
+        }
+        // if self.paimai_id < 0 {
+        //     return Err("拍卖ID为大于0");
+        // }
+
+        Ok(self.clone())
+    }
+}
+
+pub async fn new_reptile(form: NewReptile) -> ResultWarp<impl Reply> {
+    log::warn!("post数据： {:#?}", form);
+    let mut html = "后台命令去抓取法拍车".to_string();
+
+    match form.validate() {
+        Ok(post) => {
+            log::info!("表彰：{:#?}", post);
+            // let program = "./target/debug/reptile";
+            // let dir = "/home/luck/Code/跟我买车/reptile";
+
+            let program = crate::common::get_env("reptile");
+            let dir = crate::common::get_env("reptile_dir");
+      
+            let mut output = std::process::Command::new(program)
+                .current_dir(dir)
+                .arg(post.paimai_id)
+                .arg(post.belong)
+                .output()
+                .expect("执行不了命令");
+
+            log::debug!("执行抓取法拍车命令结果：{:#?}", output);
+
+            html = String::from_utf8(output.stdout).expect("命令执行无标准输出！");
+        }
+        Err(e) => {
+            log::warn!("表单认证不通过：{}", e);
+            html = e.to_string();
+        }
+    }
+
+    Ok(warp::reply::html(html)) //直接返回html
+}
+
 pub async fn detail(id: i32) -> std::result::Result<impl Reply, Rejection> {
     match lawsuit_reptile_model::get_id(id) {
         Some(autocar) => {

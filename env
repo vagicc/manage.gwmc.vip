@@ -16,3 +16,8 @@ BASE_URL=//127.0.0.1:5813/
 
 # 日志记录模式：Off,Error,Warn,Info,Debug,Trace
 RUST_LOG=Debug
+
+# 法拍车爬虫程序所在
+reptile=./target/debug/reptile
+# 爬虫程序路径
+reptile_dir=/home/luck/Code/跟我买车/reptile
