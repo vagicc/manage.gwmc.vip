@@ -100,7 +100,6 @@ pub async fn new_reptile(form: NewReptile) -> ResultWarp<impl Reply> {
 
             let program = crate::common::get_env("reptile");
             let dir = crate::common::get_env("reptile_dir");
-      
             let mut output = std::process::Command::new(program)
                 .current_dir(dir)
                 .arg(post.paimai_id)
@@ -308,6 +307,9 @@ pub async fn push_lawsuit_autocar(
                 create_time: None,
             };
             let laid = data.insert();
+            if laid == 0 {
+                log::error!("法拍车推荐插入表出错,要插入的数据：{:#?}", data);
+            }
 
             let content = form.description;
             if !content.is_empty() {
@@ -317,7 +319,10 @@ pub async fn push_lawsuit_autocar(
                     article_content: Some(content),
                     create_time: None,
                 };
-                let _new_article = new_article.insert();
+                let new_article = new_article.insert();
+                if new_article.is_none() {
+                    log::error!("法拍车文章插入出错,文章内容：{:#?}", new_article);
+                }
             }
 
             // 处理相册
