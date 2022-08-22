@@ -82,10 +82,33 @@ pub async fn edit(id: i32, form: LawsuitAutocarForm) -> ResultWarp<impl Reply> {
         Ok(post) => {
             // 先修改文章
             use crate::models::lawsuit_autocar_article_model::update_content;
+            use diesel::data_types::Cents; //i64
             update_content(id, post.description);
 
-            // 再修改lawsuit_autocar表,一次性改全字段如何弄
-            log::error!("到这里");
+            // 再修改lawsuit_autocar表
+            let current_price = (form.current_price * 100.) as i64;
+            let recommended_price = (form.recommended_price * 100.) as i64;
+            let update = lawsuit_autocar_model::UpdateLawsuitAutocar {
+                title: &post.title[..],
+                summary: &post.summary[..],
+                license: &post.license[..],
+                violating: &post.violating[..],
+                universal_model: &post.universal_model[..],
+                gearbox: &post.gearbox[..],
+                fuel_type: &post.fuel_type[..],
+                kilometer: post.kilometer,
+                autocar_model: Some(post.autocar_model),
+                vim: Some(post.vim),
+                engine_number: Some(post.engine_number),
+                emission: Some(post.emission),
+                current_price: Cents(current_price),
+                recommended_price: Cents(recommended_price),
+                recommend: post.recommend,
+                // address: Some(post.address),
+                show: Some(post.show),
+            };
+            let temp = lawsuit_autocar_model::modify(id, &update);
+            log::error!("到这里:{:#?}", temp);
         }
         Err(message) => {
             log::warn!("用户修改数据不合法：{}", message);

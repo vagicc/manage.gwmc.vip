@@ -280,23 +280,67 @@ impl NewLawsuitAutocar {
 }
 
 // 更新数据结构体
-#[derive(AsChangeset, Identifiable)]
+#[derive(AsChangeset)]
 #[table_name = "lawsuit_autocar"]
-pub struct LawsuitAutocarForm {
-    pub id: i32,                            //主键ID
-    pub title: String,                      //标题
+pub struct UpdateLawsuitAutocar<'a> {
+    pub title: &'a str, //标题
+    pub summary: &'a str,                    //车摘要
+    // pub list_img: Option<String>,           //封面图-列表图
+    pub license: &'a str,            //车牌号
+    pub violating: &'a str,          //违章
+    pub universal_model:&'a str,    //通用车型号
+    pub gearbox: &'a str,            //变速箱(手动6档,自动档)
+    pub fuel_type: &'a str,          //燃料:汽油,柴油,纯电,油电混合,氢能电池,氢能
+    pub kilometer: i32,             //已行驶公里数
+    // pub registration: Option<NaiveDate>,    //注册登记日期
+    // pub production_date: Option<NaiveDate>, //生产日期
+    pub autocar_model: Option<String>,      //厂家车型
+    pub vim: Option<String>,                //车架号
+    pub engine_number: Option<String>,      //发动机号
+    pub emission: Option<String>,           //排放阶段
+    // pub price_base: Cents,                  //起拍价
+    pub current_price: Cents,               //当前价
+    // pub assess_price: Cents,                //评估价
+    // pub margin: Cents,                      //保证金
+    pub recommended_price: Cents,           //最高推荐价
+    // pub start_time: Option<NaiveDateTime>,  //开拍时间
+    // pub end_time: Option<NaiveDateTime>,    //结束时间
+    pub recommend: i16,                     //推荐星数1-10
+    // pub address: Option<String>,            //标地物详细地址
+    // pub disposal_unit: Option<String>,      //处置单位:所属法院
+    // pub external_url: Option<String>,       //拍卖详情URL
+    // pub belong: Option<i16>,                //所属平台（1.淘宝、2.京东）
+    // pub stage: Option<String>,              //拍卖阶段（一拍、二拍、变卖、撤回）
+    // pub status: i16, //状态（1待开拍、2竞拍中、已结束:3成交，4流拍、0无效或撤回）
+    pub show: Option<bool>, //是否展示
 }
 
-pub fn update_test(pkey:i32,tit:String){
-    log::warn!("测试用结构体更新表数据！！！！");
+pub fn modify(pkey: i32, data: &UpdateLawsuitAutocar)->Option<LawsuitAutocar> {
+    // log::warn!("用结构体更新表数据！！！！");
 
-    let up_data=LawsuitAutocarForm{
-        id:pkey,
-        title:tit,
-    };
+    let query = diesel::update(lawsuit_autocar.find(pkey)).set(data);
+    log::debug!(
+        "lawsuit_autocar表更新数据SQL：{:?}",
+        diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
+    );
 
-    let connection = get_connection();
-    use crate::db::_my_pg_connection;
-    let k=_my_pg_connection();
-    // let change_data=up_data.save_changes(&connection);
+    let conn = get_connection();
+    let result = query.get_result::<LawsuitAutocar>(&conn);
+
+    // crate::common::type_v(result);
+    /*
+    变量值：Ok(
+        LawsuitAutocar { id: 12, title: "粤ED22281哪吒纯电轿车", summary: "纯电，可上任何地方版", list_img: Some("//img.alicdn.com/bao/uploaded/i4/O1CN01QLDXDV1e0ZO2ALPLO_!!0-paimai.jpg_460x460.jpg"), license: Some("粤ED22281"), violating: Some(""), universal_model: Some("哪吒V"), gearbox: Some("自动档"), fuel_type: Some("纯电"), kilometer: Some(58888), registration: None, production_date: None, autocar_model: Some(""), vim: Some("LUZAGBDA0MA000662"), engine_number: Some("AAPF6J00521"), emission: Some("纯电"), price_base: PgMoney(3005200), current_price: PgMoney(3005200), assess_price: PgMoney(3756500), margin: PgMoney(600000), recommended_price: PgMoney(5242650), start_time: Some(2022-08-25T10:00:00), end_time: Some(2022-08-26T10:00:00), recommend: 8, address: Some("广东省 佛山市 禅城区  岭南大道北121号东江国际停车场 "), disposal_unit: Some("佛山市鑫谱诺建材科技有限公司管理人"), external_url: Some("https://sf-item.taobao.com/sf_item/680565097949.htm"), belong: Some(1), stage: Some("一拍"), status: 1, show: Some(true), create_time: Some(2022-08-13T13:49:51) })
+         =>类型： core::result::Result<manage_gwmc_vip::models::lawsuit_autocar_model::LawsuitAutocar, diesel::result::Error>
+    */
+
+    match result {
+        Ok(changed) => {
+            return Some(changed);
+        }
+        Err(e) => {
+            log::error!("lawsuit_autocar表修改数据失败：{}", e);
+            return None;
+        }
+    }
 }
