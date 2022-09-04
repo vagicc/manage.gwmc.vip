@@ -20,8 +20,11 @@ warp = { version = "0.3.2", features = ["tls","multipart"] }
 # diesel是Rust的ORM(对象关系映射器)和查询构建器
 # diesel为PostgreSQL、Mysql及SQLite提供了开箱即用的支持
 diesel = { version="1.4.8",features=["extras","postgres","r2d2"] }
+# diesel = { version="2.0.0",features=["extras","postgres","r2d2"] }
 #  diesel中的numeric类型用到 Nullable<Decimal>
 bigdecimal = ">= 0.0.10, < 0.2.0"
+# bigdecimal = ">=0.0.13, < 0.4.0"
+
 
 # 模板-隔离RUST和HTML
 # 基本用法: https://handlebarsjs.com/zh/guide/expressions.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95

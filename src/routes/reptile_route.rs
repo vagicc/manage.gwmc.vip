@@ -2,16 +2,27 @@ use crate::handlers::reptile_handler;
 use warp::{filters::BoxedFilter, Filter};
 
 pub fn list() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    //接收GET查询条件
+    let opt_query = warp::query::<reptile_handler::GetQuery>()
+        .map(Some)
+        .or_else(|_| async {
+            Ok::<(Option<reptile_handler::GetQuery>,), std::convert::Infallible>((None,))
+        });
+
     let first = warp::get()
         .and(warp::path!("reptile" / "list"))
         .and(warp::path::end())
-        .and_then(|| async { reptile_handler::list_page(1).await });
+        .and(opt_query)
+        .and_then(|get: Option<reptile_handler::GetQuery>| async {
+            reptile_handler::list_page(1,get).await
+        });
 
     warp::get()
         .and(warp::path("reptile"))
         .and(warp::path("list"))
         .and(warp::path::param())
         .and(warp::path::end())
+        .and(opt_query)
         .and_then(reptile_handler::list_page)
         .or(first)
         .or(new())

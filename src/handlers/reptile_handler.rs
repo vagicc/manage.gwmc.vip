@@ -1,15 +1,25 @@
 use crate::models::lawsuit_reptile_model;
 use crate::template::to_html_single;
 use handlebars::{to_json, Handlebars};
+use serde_derive::{Deserialize, Serialize};
 use serde_json::value::Map;
 use warp::{Rejection, Reply};
 
 type ResultWarp<T> = std::result::Result<T, Rejection>;
 
-pub async fn list_page(page: u32) -> ResultWarp<impl Reply> {
-    // log::debug!("抓到要推荐的车列表-分页");
+// GET查询条件
+#[derive(Debug, Deserialize, Serialize)]
+pub struct GetQuery {
+    pub title: String, //爬虫抓到的标题
+    pub push: bool,    //是否已推送
+}
+
+pub async fn list_page(page: u32, get: Option<GetQuery>) -> ResultWarp<impl Reply> {
+    log::debug!("抓到要推荐的车列表-分页");
+    log::warn!("GET查询条件：{:#?}", get);
+
     let per: u32 = 8; //每页总数
-    let (count, list, pages) = lawsuit_reptile_model::list_page(Some(page), Some(per));
+    let (count, list, pages) = lawsuit_reptile_model::list_page(Some(page), Some(per), get);
 
     let mut data = Map::new();
     data.insert("list_len".to_string(), to_json(count)); //

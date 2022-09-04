@@ -122,7 +122,11 @@ pub fn get_id(primary: i32) -> Option<LawsuitReptile> {
 /// page: Option<u32>  第几页
 /// per: Option<u32>   每页多少条数据,默认为50
 /// 返回（总条数：i64,数据数组，分页html)
-pub fn list_page(page: Option<u32>, per: Option<u32>) -> (i64, Vec<LawsuitReptile>, String) {
+pub fn list_page(
+    page: Option<u32>,
+    per: Option<u32>,
+    whe: Option<crate::handlers::reptile_handler::GetQuery>,
+) -> (i64, Vec<LawsuitReptile>, String) {
     let mut limit: i64 = 50; //每页取几条数据
     let mut offset: i64 = 0; //从第0条开始
 
@@ -142,7 +146,19 @@ pub fn list_page(page: Option<u32>, per: Option<u32>) -> (i64, Vec<LawsuitReptil
         // }
     }
 
-    let query = lawsuit_reptile.filter(push.eq(false));
+    let mut push_where = false;
+    let mut tilte_where = String::new();
+
+    if let Some(get_data) = whe {
+        push_where = get_data.push;
+        tilte_where = get_data.title;
+    }
+
+    let mut query = lawsuit_reptile.filter(push.eq(push_where));
+    if !tilte_where.is_empty() {
+        log::error!("标题非空:{}", tilte_where);
+        query.filter(title.like(tilte_where));
+    }
 
     let query_count = query.count();
     log::debug!(
@@ -165,7 +181,7 @@ pub fn list_page(page: Option<u32>, per: Option<u32>) -> (i64, Vec<LawsuitReptil
         .order_by(id.desc())
         .limit(limit) //取10条数据
         .offset(offset); //从第0条开始;
-    log::debug!(
+    log::warn!(
         "lawsuit_reptile分页查询SQL：{:#?}",
         diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
     );
