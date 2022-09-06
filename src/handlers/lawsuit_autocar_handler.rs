@@ -13,7 +13,7 @@ type ResultWarp<T> = std::result::Result<T, Rejection>;
 
 // 分页显示
 pub async fn list(page: u32) -> ResultWarp<impl Reply> {
-    let per: u32 = 3; //每页总数
+    let per: u32 = 8; //每页总数
     let (count, list) = lawsuit_autocar_model::get_list(Some(page), Some(per));
     let pages = crate::common::page("lawsuit/autocar", count, page, per);
     let mut data = Map::new();

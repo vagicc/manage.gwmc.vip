@@ -154,11 +154,13 @@ pub fn list_page(
         tilte_where = get_data.title;
     }
 
+    // let mut kt = push.eq(push_where);
+    // let mut query = lawsuit_reptile.filter(kt);
     let mut query = lawsuit_reptile.filter(push.eq(push_where));
-    if !tilte_where.is_empty() {
-        log::error!("标题非空:{}", tilte_where);
-        query.filter(title.like(tilte_where));
-    }
+    // if !tilte_where.is_empty() {
+    //     log::error!("标题非空:{}", tilte_where);
+    //     query.filter(title.like(tilte_where));
+    // }
 
     let query_count = query.count();
     log::debug!(
