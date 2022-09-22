@@ -4,6 +4,7 @@ use crate::routes::home_route;
 use crate::routes::lawsuit_autocar_route;
 use crate::routes::login_route;
 use crate::routes::reptile_route;
+use crate::routes::websockets_route;
 
 pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone
 {
@@ -20,11 +21,14 @@ pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = war
     let reptile = reptile_route::list();
     let lawsuit_autocar = lawsuit_autocar_route::list();
 
+    let websocket = websockets_route::echo();
+
     let routes = home
         .or(dir)
         .or(favicon)
         .or(login)
         .or(reptile)
-        .or(lawsuit_autocar);
+        .or(lawsuit_autocar)
+        .or(websocket);
     routes
 }
