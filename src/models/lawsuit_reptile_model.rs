@@ -193,7 +193,7 @@ pub fn list_page(
         .unwrap_or(data_null);
 
     // let page = page.unwrap_or(1);
-    pages = crate::common::page("reptile/list", count, page.unwrap_or(1), limit as u32);
+    pages = crate::pager::default_full("reptile/list", count, page.unwrap_or(1), limit as u32);
     (count, list, pages)
 }
 

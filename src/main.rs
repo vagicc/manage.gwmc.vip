@@ -7,6 +7,7 @@ mod filters;
 mod format_logger;
 mod handlers;
 mod models;
+mod pager;
 mod routes;
 mod schema;
 mod template;
@@ -35,15 +36,15 @@ async fn main() {
     let routes = filters::all_routes();
 
     //取得https证书等
-    let cert_path = get_env("cert_path");
-    let key_path = get_env("key_path");
+    // let cert_path = get_env("cert_path");
+    // let key_path = get_env("key_path");
     let ip_addr = get_env("ip_address");
     let socket_addr: SocketAddr = ip_addr.as_str().parse().unwrap();
 
     warp::serve(routes)
-        .tls()
-        .cert_path(cert_path)
-        .key_path(key_path)
+        // .tls()
+        // .cert_path(cert_path)
+        // .key_path(key_path)
         .run(socket_addr)
         .await;
 }
