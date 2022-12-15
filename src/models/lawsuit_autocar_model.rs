@@ -164,8 +164,8 @@ pub fn get_list(page: Option<u32>, per: Option<u32>) -> (i64, Vec<LawsuitAutocar
         diesel::debug_query::<diesel::pg::Pg, _>(&query_count).to_string()
     );
 
-    let conn = get_connection();
-    let count: i64 = query_count.get_result(&conn).unwrap(); //查询总条数
+    let mut conn = get_connection();
+    let count: i64 = query_count.get_result(&mut conn).unwrap(); //查询总条数
     let data_null: Vec<LawsuitAutocar> = Vec::new();
 
     if count <= 0 {
@@ -192,7 +192,7 @@ pub fn get_list(page: Option<u32>, per: Option<u32>) -> (i64, Vec<LawsuitAutocar
 
     (
         count,
-        query.load::<LawsuitAutocar>(&conn).unwrap_or_else(|_op| {
+        query.load::<LawsuitAutocar>(&mut conn).unwrap_or_else(|_op| {
             return data_null;
         }),
     )
@@ -205,8 +205,8 @@ pub fn get_id(primary_key: i32) -> Option<LawsuitAutocar> {
         diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
     );
 
-    let conn = get_connection();
-    let result = query.first::<LawsuitAutocar>(&conn);
+    let mut conn = get_connection();
+    let result = query.first::<LawsuitAutocar>(&mut conn);
 
     match result {
         Ok(data) => Some(data),
@@ -269,11 +269,11 @@ impl NewLawsuitAutocar {
             self.create_time = Some(now_date_time);
         }
 
-        let connection = get_connection();
+        let mut connection = get_connection();
         let insert_id = diesel::insert_into(lawsuit_autocar)
             .values(self.clone())
             .returning(id)
-            .get_result::<i32>(&connection)
+            .get_result::<i32>(&mut connection)
             .unwrap_or(0);
         insert_id
     }
@@ -324,8 +324,8 @@ pub fn modify(pkey: i32, data: &UpdateLawsuitAutocar)->Option<LawsuitAutocar> {
         diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
     );
 
-    let conn = get_connection();
-    let result = query.get_result::<LawsuitAutocar>(&conn);
+    let mut conn = get_connection();
+    let result = query.get_result::<LawsuitAutocar>(&mut conn);
 
     // crate::common::type_v(result);
     /*

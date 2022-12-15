@@ -22,8 +22,8 @@ pub fn get_front_cover(id: i32) -> Option<LawsuitReptilePhoto> {
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("get_reptile_photo查询SQL：{:?}", sql);
 
-    let conn = get_connection();
-    let result = query.first::<LawsuitReptilePhoto>(&conn);
+    let mut conn = get_connection();
+    let result = query.first::<LawsuitReptilePhoto>(&mut conn);
 
     match result {
         Ok(data) => Some(data),
@@ -49,8 +49,8 @@ pub fn get_reptile_photo(id: i32) -> Option<Vec<LawsuitReptilePhoto>> {
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("get_reptile_photo查询SQL：{:?}", sql);
 
-    let conn = get_connection();
-    let result = query.get_results::<LawsuitReptilePhoto>(&conn);
+    let mut conn = get_connection();
+    let result = query.get_results::<LawsuitReptilePhoto>(&mut conn);
 
     match result {
         Ok(data) => Some(data),

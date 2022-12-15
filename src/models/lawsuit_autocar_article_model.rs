@@ -21,10 +21,10 @@ impl LawsuitAutocarArticle {
             self.create_time = Some(now_date_time);
         }
 
-        let connection = get_connection();
+        let mut connection = get_connection();
         let insert_data = diesel::insert_into(lawsuit_autocar_article)
             .values(self.clone())
-            .get_result::<LawsuitAutocarArticle>(&connection); //这里还要处理，不能中断程序
+            .get_result::<LawsuitAutocarArticle>(&mut connection); //这里还要处理，不能中断程序
 
         match insert_data {
             Ok(data) => {
@@ -65,8 +65,8 @@ pub fn get_article(id: i32) -> Option<LawsuitAutocarArticle> {
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("lawsuit_autocar_article查询（get_article）SQL：{:?}", sql);
 
-    let connection = get_connection();
-    let result = query.first::<LawsuitAutocarArticle>(&connection);
+    let mut connection = get_connection();
+    let result = query.first::<LawsuitAutocarArticle>(&mut connection);
 
     match result {
         Ok(data) => Some(data),
@@ -82,6 +82,6 @@ pub fn update_content(id: i32, content: String) {
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("update_content=>SQL：{:?}", sql);
 
-    let conn = get_connection();
-    let update_result = query.get_result::<LawsuitAutocarArticle>(&conn);
+    let mut conn = get_connection();
+    let update_result = query.get_result::<LawsuitAutocarArticle>(&mut conn);
 }

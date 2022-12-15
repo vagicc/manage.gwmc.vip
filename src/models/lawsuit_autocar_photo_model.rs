@@ -31,9 +31,9 @@ pub fn get_autocar_photo(autocar_id: i32) -> Vec<LawsuitAutocarPhoto> {
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("get_autocar_photo查询SQL：{:?}", sql);
 
-    let conn = get_connection();
+    let mut conn = get_connection();
     query
-        .load::<LawsuitAutocarPhoto>(&conn)
+        .load::<LawsuitAutocarPhoto>(&mut conn)
         .unwrap_or_else(|op| {
             let temp: Vec<LawsuitAutocarPhoto> = Vec::new();
             return temp;
@@ -52,11 +52,11 @@ pub struct NewLawsuitAutocarPhoto {
 }
 impl NewLawsuitAutocarPhoto {
     pub fn insert(&self) -> i32 {
-        let connection = get_connection();
+        let mut connection = get_connection();
         let insert_id = diesel::insert_into(lawsuit_autocar_photo)
             .values(self)
             .returning(lapid)
-            .get_result::<i32>(&connection)
+            .get_result::<i32>(&mut connection)
             .unwrap_or(0);
         insert_id
     }

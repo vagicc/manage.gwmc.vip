@@ -98,8 +98,8 @@ pub fn get_id(primary: i32) -> Option<LawsuitReptile> {
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("get_id查询SQL：{:?}", sql);
 
-    let conn = get_connection();
-    let result = query.first::<LawsuitReptile>(&conn);
+    let mut conn = get_connection();
+    let result = query.first::<LawsuitReptile>(&mut conn);
 
     match result {
         Ok(data) => Some(data),
@@ -110,7 +110,7 @@ pub fn get_id(primary: i32) -> Option<LawsuitReptile> {
                 }
                 _ => {
                     log::error!("查询出错：{:#?}", error);
-                    // panic!("查找用户质次申请数据出错"); //这里可能不要中断程序
+                    // panic!("查找用户质次申请数据出错"); //这里&connection可能不要中断程序
                 }
             }
             None
@@ -168,9 +168,9 @@ pub fn list_page(
         diesel::debug_query::<diesel::pg::Pg, _>(&query_count).to_string()
     );
 
-    let conn = get_connection();
+    let mut conn = get_connection();
     let count: i64 = query_count
-        .get_result(&conn)
+        .get_result(&mut conn)
         .expect("lawsuit_reptile分页数量查询出错"); //查询总条数
 
     let mut pages = String::new();
@@ -189,7 +189,7 @@ pub fn list_page(
     );
 
     let list = query
-        .get_results::<LawsuitReptile>(&conn)
+        .get_results::<LawsuitReptile>(&mut conn)
         .unwrap_or(data_null);
 
     // let page = page.unwrap_or(1);
@@ -199,7 +199,7 @@ pub fn list_page(
 
 // 返回所有数据,无分页
 pub fn get_list() -> Vec<LawsuitReptile> {
-    let conn = get_connection();
+    let mut conn = get_connection();
     // let query = lawsuit_reptile
     //     .order_by(id.desc())
     //     .get_results::<LawsuitReptile>(&conn)
@@ -213,7 +213,7 @@ pub fn get_list() -> Vec<LawsuitReptile> {
     log::debug!("list查询SQL：{:?}", sql);
 
     let list = query
-        .get_results::<LawsuitReptile>(&conn)
+        .get_results::<LawsuitReptile>(&mut conn)
         .unwrap_or_else(|_op| {
             let temp: Vec<LawsuitReptile> = Vec::new();
             return temp;
@@ -228,8 +228,8 @@ pub fn update_push(pkey: i32, is_push: bool) {
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
     log::debug!("update_push=>SQL：{:?}", sql);
 
-    let conn = get_connection();
-    let update_result = query.get_result::<LawsuitReptile>(&conn);
+    let mut conn = get_connection();
+    let update_result = query.get_result::<LawsuitReptile>(&mut conn);
 }
 
 // 新插入数据结构体
@@ -259,11 +259,11 @@ impl NewLawsuitReptile {
         //     self.create_time = Some(now_date_time);
         // }
 
-        let connection = get_connection();
+        let mut connection = get_connection();
         let insert_id = diesel::insert_into(lawsuit_reptile)
             .values(self)
             .returning(id)
-            .get_result::<i32>(&connection)
+            .get_result::<i32>(&mut connection)
             .unwrap_or(0);
         insert_id
     }
