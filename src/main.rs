@@ -2,6 +2,7 @@ use crate::common::get_env;
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
 
 mod common;
+mod constants;
 mod db;
 mod filters;
 mod format_logger;
@@ -10,6 +11,7 @@ mod models;
 mod pager;
 mod routes;
 mod schema;
+mod session;
 mod template;
 
 #[macro_use]

@@ -1,5 +1,9 @@
+pub mod admins_model;
 pub mod lawsuit_autocar_article_model;
 pub mod lawsuit_autocar_model;
 pub mod lawsuit_autocar_photo_model;
 pub mod lawsuit_reptile_model;
 pub mod lawsuit_reptile_photo_model;
+pub mod menus_model;
+pub mod rights_model;
+pub mod roles_model;

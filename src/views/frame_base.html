@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="临来笑笑生">
+	<meta name="keyword" content="風味雲、風創未來">
+	<meta name="description" content="Fortune(財運雲) OA">
+	<title>後臺</title>
+	<base href="{{base_url}}static/miminium/" />
+	<!-- start: Css -->
+	<link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
+
+	<!-- plugins -->
+	<link rel="stylesheet" type="text/css" href="asset/css/plugins/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="asset/css/plugins/simple-line-icons.css" />
+	<link rel="stylesheet" type="text/css" href="asset/css/plugins/animate.min.css" />
+
+	<link rel="stylesheet" type="text/css" href="asset/css/plugins/fullcalendar.min.css" />
+	<link rel="stylesheet" type="text/css" href="asset/css/plugins/mediaelementplayer.css" />
+	<link rel="stylesheet" type="text/css" href="asset/css/plugins/icheck/skins/flat/red.css" />
+	<link href="asset/css/style.css" rel="stylesheet">
+	<!-- end: Css -->
+
+	<!-- <link rel="shortcut icon" href="asset/img/logomi.png"> -->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+	<script src="asset/js/jquery-2.1.4.js"></script>
+	<script src="asset/js/jquery.ui.min.js"></script>
+	<script src="asset/js/bootstrap.min.js"></script>
+</head>
+<!-- 后台框架源码来自于（miminium）：https://github.com/akivaron/miminium -->
+
+<body id="mimin" class="dashboard">
+	<!-- start: Header -->
+	<nav class="navbar navbar-default header navbar-fixed-top">
+		<div class="col-md-12 nav-wrapper">
+			<div class="navbar-header" style="width:100%;">
+				<div class="opener-left-menu is-open">
+					<span class="top"></span>
+					<span class="middle"></span>
+					<span class="bottom"></span>
+				</div>
+				<a href="{{base_url}}" class="navbar-brand">
+					<b>跟我买车</b>
+					<!-- <img src="asset/img/fcwl.png" width="158" style="margin-top: -10px;"> -->
+				</a>
+
+				<ul class="nav navbar-nav search-nav">
+					<li>
+						<!-- 頂部搜索 -->
+						<!-- <div class="search">
+							<span class="fa fa-search icon-search" style="font-size:23px;"></span>
+							<div class="form-group form-animate-text">
+								<input type="text" class="form-text" required>
+								<span class="bar"></span>
+
+								<label class="label-search">Type anywhere to <b>搜索</b> </label>
+							</div>
+						</div> -->
+					</li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right user-nav">
+					<li class="user-name"><span>
+							{{admin.username}}
+						</span></li>
+					<li class="dropdown avatar-dropdown">
+						<img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="true" />
+						<ul class="dropdown-menu user-dropdown">
+							<li><a href="javascript:void(0)"><span class="fa fa-user"></span> 我的简介</a></li>
+							<li><a href="javascript:void(0)"><span class="fa fa-calendar"></span> 我的日程</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="more">
+								<ul>
+									<li><a href="{{base_url}}admins/modifypasswd/" title="修改密码"><span
+												class="fa fa-cogs"></span></a></li>
+									<li><a href="javascript:void(0)"><span class="fa fa-lock"></span></a></li>
+									<li><a href="{{base_url}}logout" onclick="return confirm('是否要退出登录？？');"
+											title="退出登录"><span class="fa fa-power-off "></span></a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<!-- <li ><a href="javascript:void(0)" class="opener-right-menu"><span class="fa fa-coffee"></span></a></li> -->
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- end: Header -->
+
+	<div class="container-fluid mimin-wrapper">
+
+		<!-- start:Left Menu -->
+		<div id="left-menu">
+			<div class="sub-left-menu scroll">
+				<ul class="nav nav-list">
+					<li>
+						<div class="left-bg"></div>
+					</li>
+					<li class="time">
+						<h1 class="animated fadeInLeft">18:00</h1>
+						<p class="animated fadeInRight">Sat,October 1st 2029</p>
+					</li>
+
+					<!-- 菜单 start -->
+					{{#each left_menus}}
+					<li class="ripple {{#if (eq ../current.department id)}}active{{/if}}">
+						{{#if child}}
+						<a class="tree-toggle nav-header">
+							<span class="fa {{icon}}"></span> {{name}}
+							{{#if (eq ../current.department id)}}
+							<span class="fa right-arrow text-right fa-angle-down"></span>
+							{{else}}
+							<span class="fa right-arrow text-right fa-angle-right"></span>
+							{{/if}}
+						</a>
+						<ul id="{{#if (eq ../current.department id)}}unfold{{/if}}" class="nav nav-list tree">
+							{{#each child}}
+								<li>
+									<a href="{{../../base_url}}{{path_full}}" {{#if (eq ../../current.path_full path_full)}}style="color: blue;"{{/if}} >
+										{{name}}
+									</a>
+								</li>
+							{{/each}}
+						</ul>
+						{{else}}
+						<a href="{{../base_url}}{{path_full}}" {{#if (eq ../current.path_full path_full)}}style="color: blue;"{{/if}}>
+							<span class="fa {{icon}}"></span> {{name}}
+						</a>
+						{{/if}}
+					</li>
+					{{/each}}
+ 
+					<!-- 菜单 end -->
+
+
+				</ul>
+			</div>
+		</div>
+		<!-- end: Left Menu -->
+
+
+		<!-- start: content -->
+		<div id="content">
+			<!--  开始中间主体内容 -->
+			<!-- 主体内容 start -->
+			{{> child}}
+			<!-- 主体内容 end -->
+			<!--  结束中间主体内容 -->
+		</div>
+		<!-- end: content -->
+
+
+		<!-- start: right menu -->
+
+
+		<!-- end: right menu -->
+
+	</div>
+
+	<!-- start: Mobile -->
+	<div id="mimin-mobile" class="reverse">
+		<div class="mimin-mobile-menu-list">
+			<div class="col-md-12 sub-mimin-mobile-menu-list animated fadeInLeft">
+				<ul class="nav nav-list">
+					{{#each left_menus}}
+					<li class="ripple {{#if (eq ../current.department id)}}active{{/if}}">
+						{{#if child}}
+						<a class="tree-toggle nav-header">
+							<span class="fa {{icon}}"></span> {{name}} 
+							{{#if (eq ../current.department id)}}
+							<span class="fa right-arrow text-right fa-angle-down"></span>
+							{{else}}
+							<span class="fa-angle-right fa right-arrow text-right"></span> 
+							{{/if}}
+						</a>
+						<ul class="nav nav-list tree" {{#if (eq ../current.department id)}}style="display: block;"{{/if}}>
+							{{#each child}}
+								<li><a href="{{../../base_url}}{{path_full}}" {{#if (eq ../../current.path_full path_full)}}style="color: yellow;"{{/if}} >{{name}}</a></li>
+							{{/each}}
+						</ul>
+						{{else}}
+						<a href="{{../base_url}}{{path_full}}" {{#if (eq ../current.path_full path_full)}}style="color: yellow;"{{/if}} >
+							<span class="fa {{icon}}"></span> {{name}}
+						</a>
+						{{/if}}
+					</li>
+					{{/each}}
+
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<button id="mimin-mobile-menu-opener" class="animated rubberBand btn btn-circle btn-danger">
+		<span class="fa fa-bars"></span>
+	</button>
+
+	<!-- end: Mobile -->
+
+	<!-- start: Javascript -->
+
+	<!-- plugins -->
+	<script src="asset/js/plugins/moment.min.js"></script>
+	<script src="asset/js/plugins/jquery.nicescroll.js"></script>
+
+	<script src="asset/js/main.js"></script>
+
+	<!-- end: Javascript -->
+
+</body>
+
+</html>

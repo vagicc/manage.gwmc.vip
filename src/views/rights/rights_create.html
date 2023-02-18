@@ -1,0 +1,78 @@
+{{#*inline "child"}}
+<div class="panel box-shadow-none content-header">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <h3 class="animated fadeInLeft">权限</h3>
+            <p class="animated fadeInDown">
+                权限管理 <span class="fa-angle-right fa"></span>添加
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="form-element">
+    <div class="col-md-12 padding-0">
+        <div class="col-md-12">
+            <div class="panel form-element-padding">
+                <div class="panel-heading">
+                    <a href="javascript:history.back(-1);" class="btn btn-default right">返回</a>
+                    <h4>新增权限（一般来说不手动添加）</h4>
+                </div>
+                <div class="panel-body" style="padding-bottom:30px;">
+                    <div class="col-md-12">
+                        <form method="post" class="form-horizontal" role="form">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">权限简称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="right_name" class="form-control border-bottom"
+                                        placeholder="暂可不填">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">url_path</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="path_full" placeholder="路径" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group has-warning">
+                                <label class="col-sm-2 control-label text-right">权限详情</label>
+                                <div class="col-sm-10">
+                                    <textarea name="right_detail" class="form-control" placeholder="此权限分配应该注意事项"
+                                        rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group"><label class="col-sm-2 control-label text-right"> </label>
+                                <div class="col-sm-10">
+                                    <div class="col-sm-12 padding-0">
+
+                                        <input class="submit btn btn-danger" type="submit" value="提交">
+                                        &nbsp; &nbsp; &nbsp;
+                                        <input class="btn btn-default" type="reset" value="重置">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function mySelectAll(c) {
+        if ($("#" + c).prop("checked")) {
+            $("." + c).prop('checked', true);
+        } else {
+            $("." + c).prop('checked', false);
+        }
+    }
+</script>
+
+{{/inline}}
+{{> (lookup this "parent")}}
