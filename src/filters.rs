@@ -48,7 +48,7 @@ pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = war
         .or(rights)
         .or(reptile)
         .or(lawsuit_autocar)
-        .or(websocket)
-        .recover(crate::session::inaccessible);
+        .or(websocket);
+        // .recover(crate::session::inaccessible);
     routes
 }

@@ -1,4 +1,5 @@
 use crate::handlers::reptile_handler;
+use crate::session::with_session;
 use warp::{filters::BoxedFilter, Filter};
 
 pub fn list() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
@@ -13,9 +14,12 @@ pub fn list() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection
         .and(warp::path!("reptile" / "list"))
         .and(warp::path::end())
         .and(opt_query)
-        .and_then(|get: Option<reptile_handler::GetQuery>| async {
-            reptile_handler::list_page(1,get).await
-        });
+        .and(with_session())
+        .and_then(
+            |get: Option<reptile_handler::GetQuery>, session: crate::session::Session| async {
+                reptile_handler::list_page(1, get, session).await
+            },
+        );
 
     warp::get()
         .and(warp::path("reptile"))
@@ -23,6 +27,7 @@ pub fn list() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection
         .and(warp::path::param())
         .and(warp::path::end())
         .and(opt_query)
+        .and(with_session())
         .and_then(reptile_handler::list_page)
         .or(first)
         .or(new())
@@ -42,11 +47,13 @@ pub fn new() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection>
         .and(warp::path("new"))
         .and(warp::path::end())
         .and(warp::body::form())
+        .and(with_session())
         .and_then(reptile_handler::new_reptile);
     warp::get()
         .and(warp::path("reptile"))
         .and(warp::path("new"))
         .and(warp::path::end())
+        .and(with_session())
         .and_then(reptile_handler::new_html)
         .or(post)
 }

@@ -15,6 +15,28 @@ pub struct LawsuitReptilePhoto {
     pub front_cover: Option<bool>,         //是否为封面图
 }
 
+// 新插入数据结构体
+#[derive(Debug, Clone, Insertable)]
+#[table_name = "lawsuit_reptile_photo"]
+pub struct NewLawsuitReptilePhoto {
+    pub lrid: i32,
+    pub external_small: Option<String>,
+    pub external_middle: Option<String>,
+    pub external_original: Option<String>,
+    pub front_cover: Option<bool>,
+}
+impl NewLawsuitReptilePhoto {
+    pub fn insert(&self) -> i32 {
+        let mut connection = get_connection();
+        let insert_id = diesel::insert_into(lawsuit_reptile_photo)
+            .values(self)
+            .returning(lrid)
+            .get_result::<i32>(&mut connection)
+            .unwrap_or(0);
+        insert_id
+    }
+}
+
 pub fn get_front_cover(id: i32) -> Option<LawsuitReptilePhoto> {
     let query = lawsuit_reptile_photo
         .filter(lrid.eq(id))

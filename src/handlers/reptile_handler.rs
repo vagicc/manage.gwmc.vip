@@ -1,5 +1,7 @@
 use crate::models::lawsuit_reptile_model;
+use crate::session::Session;
 use crate::template::to_html_single;
+use crate::template::view;
 use handlebars::{to_json, Handlebars};
 use serde_derive::{Deserialize, Serialize};
 use serde_json::value::Map;
@@ -14,7 +16,11 @@ pub struct GetQuery {
     pub push: bool,    //是否已推送
 }
 
-pub async fn list_page(page: u32, get: Option<GetQuery>) -> ResultWarp<impl Reply> {
+pub async fn list_page(
+    page: u32,
+    get: Option<GetQuery>,
+    session: Session,
+) -> ResultWarp<impl Reply> {
     log::debug!("抓到要推荐的车列表-分页");
     log::warn!("GET查询条件：{:#?}", get);
 
@@ -26,20 +32,10 @@ pub async fn list_page(page: u32, get: Option<GetQuery>) -> ResultWarp<impl Repl
     data.insert("list".to_string(), to_json(list)); //
     data.insert("pages".to_string(), to_json(pages));
 
-    let html = to_html_single("reptile_list.html", data);
+    // let html = to_html_single("reptile_list.html", data);
+    let html = view("reptile/list.html", data, session);
 
     Ok(warp::reply::html(html))
-
-    // let id = 0;
-    // // 判断用户是否登录过
-    // if id == 0 {
-    //     log::info!("输出正常登录");
-    //     Ok(warp::reply::html(html))
-    // } else {
-    //     log::info!("输出404");
-
-    //     Err(warp::reject::not_found()) //返回404页面
-    // }
 }
 
 // 列表无分页-不用了
@@ -71,19 +67,22 @@ pub async fn list() -> ResultWarp<impl Reply> {
     }
 }
 
-pub async fn new_html() -> ResultWarp<impl Reply> {
+pub async fn new_html(session: Session) -> ResultWarp<impl Reply> {
     log::debug!("[调试信息]访问了“/reptile/new”");
     let html = "欢迎访问<跟我买车>后台首页(Hi Luck)";
     let mut data = Map::new();
-    let html = to_html_single("reptile_new.html", data);
+    // let html = to_html_single("reptile_new.html", data);
+    let html = view("reptile/new.html", data, session);
+
     Ok(warp::reply::html(html)) //直接返回html
                                 // Err(warp::reject::not_found())   //错误的返回
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct NewReptile {
-    pub paimai_id: String, //拍卖ID
-    pub belong: String,    //所属平台（1.淘宝、2.京东）
+    pub paimai_id: String,   //拍卖ID
+    pub belong: String,      //所属平台（1.淘宝、2.京东）
+    pub html_string: String, //
 }
 impl NewReptile {
     pub fn validate(&self) -> Result<Self, &'static str> {
@@ -94,32 +93,55 @@ impl NewReptile {
         //     return Err("拍卖ID为大于0");
         // }
 
+        //淘宝改为直接输入html
+        if self.belong.eq("1") && self.html_string.is_empty() {
+            return Err("淘宝平台请输入html");
+        }
+
         Ok(self.clone())
     }
 }
 
-pub async fn new_reptile(form: NewReptile) -> ResultWarp<impl Reply> {
-    log::warn!("post数据： {:#?}", form);
+pub async fn new_reptile(form: NewReptile, session: Session) -> ResultWarp<impl Reply> {
+    // log::warn!("post数据： {:#?}", form);
     let mut html = "后台命令去抓取法拍车".to_string();
 
     match form.validate() {
         Ok(post) => {
             log::info!("表彰：{:#?}", post);
-            // let program = "./target/debug/reptile";
-            // let dir = "/home/luck/Code/跟我买车/reptile";
+            //所属平台（1.淘宝、2.京东）
+            if post.belong.eq("1") {
+                let url =
+                    "https://sf-item.taobao.com/sf_item/{}.htm".replace("{}", &post.paimai_id);
+                let url = url.as_str();
 
-            let program = crate::common::get_env("reptile");
-            let dir = crate::common::get_env("reptile_dir");
-            let mut output = std::process::Command::new(program)
-                .current_dir(dir)
-                .arg(post.paimai_id)
-                .arg(post.belong)
-                .output()
-                .expect("执行不了命令");
+                let html = &post.html_string.clone();
+                let html = html.as_str();
+                // let html = &post.html_string.as_ref().as_str();
+                let data = crate::parse::taobao_select(html).await;
+                if data.is_none() {
+                    log::error!("解析HTML得不到数据");
+                }
+                let data = data.unwrap();
+                insert_table(data, url); //插入到表
+            } else {
+                //京东，直走以前的抓取
+                // let program = "./target/debug/reptile";
+                // let dir = "/home/luck/Code/跟我买车/reptile";
 
-            log::debug!("执行抓取法拍车命令结果：{:#?}", output);
+                let program = crate::common::get_env("reptile");
+                let dir = crate::common::get_env("reptile_dir");
+                let mut output = std::process::Command::new(program)
+                    .current_dir(dir)
+                    .arg(post.paimai_id)
+                    .arg(post.belong)
+                    .output()
+                    .expect("执行不了命令");
 
-            html = String::from_utf8(output.stdout).expect("命令执行无标准输出！");
+                log::debug!("执行抓取法拍车命令结果：{:#?}", output);
+
+                html = String::from_utf8(output.stdout).expect("命令执行无标准输出！");
+            }
         }
         Err(e) => {
             log::warn!("表单认证不通过：{}", e);
@@ -128,6 +150,71 @@ pub async fn new_reptile(form: NewReptile) -> ResultWarp<impl Reply> {
     }
 
     Ok(warp::reply::html(html)) //直接返回html
+}
+
+fn insert_table(data: crate::parse::Reptile, url: &str) {
+    // 开始插入到表
+    use crate::models::lawsuit_reptile_model::NewLawsuitReptile;
+    use crate::models::lawsuit_reptile_photo_model::NewLawsuitReptilePhoto;
+    use diesel::data_types::Cents; //i64
+
+    // 两种字符转数字的方法 ￥241.00  这里单位为分，要×100;
+    // let current_price = data.current_price.parse::<i64>().expect("字符串转i64出错");
+    use std::str::FromStr;
+    let current_price = f64::from_str(data.current_price.as_str())
+        .map_err(|_| "i64转换失败？？")
+        .unwrap();
+    let current_price = (current_price * 100.) as i64;
+    let price_base = (data.price_base * 100.) as i64;
+    let assess_price = (data.assess_price * 100.) as i64;
+    let margin = (data.margin * 100.) as i64;
+
+    //毫秒和秒相差1000,但这样转换,不知道为何少了8个小时,所以主动加上去 8*3600
+    let start_time =
+        chrono::prelude::NaiveDateTime::from_timestamp(data.start_time / 1000 + 8 * 3600, 0);
+    let end_time =
+        chrono::prelude::NaiveDateTime::from_timestamp(data.end_time / 1000 + 8 * 3600, 0);
+    let now_date_time = crate::common::now_naive_date_time();
+
+    let new_data = NewLawsuitReptile {
+        title: data.title,
+        price_base: Cents(price_base),       //起拍价
+        current_price: Cents(current_price), //当前价
+        assess_price: Cents(assess_price),   //评估价
+        margin: Cents(margin),               //保证金
+        start_time: Some(start_time),
+        end_time: Some(end_time),
+        address: Some(data.address),             //标地物详细地址
+        disposal_unit: Some(data.disposal_unit), //处置单位:所属法院
+        external_url: Some(url.to_string()),
+        belong: Some(data.belong), //所属平台（1.淘宝、2.京东）
+        stage: Some(data.stage),   //拍卖阶段（一拍、二拍、变卖、撤回）
+        status: 1,                 //状态（1待开拍、2竞拍中、已结束:3成交，4流拍、0无效或撤回）
+        create_time: Some(now_date_time),
+    };
+
+    let insert_id = new_data.insert();
+    println!("插入ID:{}", insert_id);
+
+    let photos = data.photos;
+    if !photos.is_empty() {
+        let mut first = 1;
+        let mut front_cover = true;
+        for photo in photos {
+            if first != 1 {
+                front_cover = false;
+            }
+            let insert_photo = NewLawsuitReptilePhoto {
+                lrid: insert_id,
+                external_small: Some(photo.external_small),
+                external_middle: Some(photo.external_middle),
+                external_original: Some(photo.external_original),
+                front_cover: Some(front_cover),
+            };
+            insert_photo.insert();
+            first += 1;
+        }
+    }
 }
 
 pub async fn detail(id: i32) -> std::result::Result<impl Reply, Rejection> {
