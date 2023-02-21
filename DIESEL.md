@@ -15,6 +15,25 @@ PostgreSQL错误解决的：sudo apt-get install libpq-dev
 安装diesel-cli工具(mysql)：cargo install diesel_cli --no-default-features --features mysql
 mysql错误解决：sudo apt-get install libmysqlclient-dev
 
+cargo run出错: collect2: fatal error: ld terminated with signal 9 [killed]
+error: linking with `cc` failed: exit status: 1
+  |
+  = note: "cc" "-m64" "/tmp/rustcFes1DZ/symbols.o" "/var/www/manage/target/debug/deps/manage-682f74564e79a272.10dzx97ru7szmvm.rcgu.o" "/var/www/manage/target/debug/deps/manage-682f74564e79a272.114hpvqg5miobw6d.rcgu.o" "/var/www/manage/target/
+  = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+          compilation terminated.
+          
+
+warning: `manage` (bin "manage") generated 63 warnings
+error: could not compile `manage` due to previous error; 63 warnings emitted
+ 
+原因:基本都是在ld的时候，内存不足的错误
+解决:     (https://zhuanlan.zhihu.com/p/36769900)
+    1.为虚拟机至少预留100G硬盘存储
+    2.将ld链接器，修改为gold链接器: 
+                                cd /usr/bin    
+                                rm ld
+                                cp -d gold ld
+
 在cargo项目根目录下添加.env文件,加下如下条进行连接配置：
 postgres数据库：
 DATABASE_URL=postgres://postgres:llxxs@127.0.0.1:5432/linksnap

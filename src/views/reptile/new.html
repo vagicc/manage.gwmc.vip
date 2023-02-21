@@ -1,0 +1,413 @@
+{{#*inline "child"}}
+<!-- 中间内容 start -->
+<div class="panel box-shadow-none content-header">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <h3 class="animated fadeInLeft">法拍车爬虫处理</h3>
+            <ol class="animated fadeInDown breadcrumb">
+                <li><a href="{{base_url}}">首页</a></li>
+                <li><a href="{{base_url}}reptile/list">处理列表</a></li>
+                <li class="active">抓取</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="form-element">
+    <div class="col-md-12 padding-0">
+        <div class="col-md-12">
+            <div class="panel form-element-padding">
+
+                <div class="panel-heading">
+
+                    <a href="javascript:history.back(-1);" class="btn btn-default right">返回</a>
+                    <h4>抓取法拍车</h4>
+
+                </div>
+                <div class="panel-body" style="padding-bottom:30px;">
+                    <div class="col-md-12">
+                        <form method="post" class="form-horizontal" role="form">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">拍卖ID</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="paimai_id" value="" placeholder="拍卖ID" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">所属平台</label>
+                                <div class="col-sm-10">
+                                    <input type="checkbox" id="show" checked>
+                                    <input type="hidden" name="belong" value="1">
+                                    <!-- 所属平台（1&.淘宝、2.京东） -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">HTML</label>
+                                <div class="col-sm-10">
+                                    <textarea name="html_string" id="form-field-11"
+                                        class="autosize-transition form-control" placeholder="SEO描述"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group"><label class="col-sm-2 control-label text-right">
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="col-sm-12 padding-0">
+
+                                        <!-- <input type="hidden" name="current_price" value="">  -->
+
+
+                                        <input class="submit btn btn-danger" type="submit" value="提交">
+                                        &nbsp; &nbsp; &nbsp;
+                                        <input class="btn btn-default" type="reset" value="重置">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- 中间内容带JS start -->
+
+<link rel="stylesheet" type="text/css" href="asset/css/datepicker.css" />
+<link rel="stylesheet" href="summernote/summernote.css">
+
+<script type="text/javascript" src="summernote/summernote.js"></script>
+<script src="asset/js/bootstrap-datepicker.js"></script>
+<script src="asset/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+
+<!-- 图片上传样式 start -->
+<link href="asset/uploader/src/jquery.fileuploader.css" media="all" rel="stylesheet">
+<link href="asset/uploader/css/thumbnails.css" media="all" rel="stylesheet">
+<script src="asset/uploader/src/jquery.fileuploader.js" type="text/javascript"></script>
+<!-- 图片上传样式 end -->
+
+<link rel="stylesheet" type="text/css" href="asset/css/bootstrap-switch.css">
+<script src="asset/js/bootstrap-switch.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#show").bootstrapSwitch({
+            onText: '淘宝',
+            offText: '京东',
+            onColor: "info",
+            offColor: "danger",
+            size: "small",
+            onSwitchChange: function (event, state) {
+                if (state == true) {
+                    // alert('显示');
+                    $("input[name='belong']").val("1");
+                } else {
+                    // alert('不显示');
+                    $("input[name='belong']").val("2");
+                }
+            }
+        });
+
+        /*商品图(列表商品时显示176*255))*/
+        $('input[name="goods_img"]').fileuploader({
+            limit: 1,
+            extensions: ['jpg', 'jpeg', 'png', 'gif'],
+            changeInput: ' ',
+            theme: 'thumbnails',
+            enableApi: true,
+            addMore: false,      //true为多文件，false为单个文件
+            thumbnails: {
+                box: '<div class="fileuploader-items">\
+	                      <ul class="fileuploader-items-list">\
+						      <li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>\
+	                      </ul>\
+	                  </div>',
+                item: '<li class="fileuploader-item">\
+					       <div class="fileuploader-item-inner">\
+	                           <div class="thumbnail-holder">${image}</div>\
+	                           <div class="actions-holder">\
+	                               <a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>\
+	                           </div>\
+	                       	   <div class="progress-holder">${progressBar}</div>\
+	                       </div>\
+	                   </li>',
+                item2: '<li class="fileuploader-item">\
+					       <div class="fileuploader-item-inner">\
+	                           <div class="thumbnail-holder">${image}</div>\
+	                           <div class="actions-holder">\
+	                               <a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>\
+	                           </div>\
+	                       </div>\
+	                   </li>',
+                startImageRenderer: true,
+                canvasImage: false,
+                _selectors: {
+                    list: '.fileuploader-items-list',
+                    item: '.fileuploader-item',
+                    start: '.fileuploader-action-start',
+                    retry: '.fileuploader-action-retry',
+                    remove: '.fileuploader-action-remove'
+                },
+                onItemShow: function (item, listEl, parentEl, newInputEl, inputEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                        api = $.fileuploader.getInstance(inputEl.get(0));
+
+                    if (api.getFiles().length >= api.getOptions().limit) {
+                        plusInput.hide();
+                    }
+
+                    plusInput.insertAfter(item.html);
+
+
+                    if (item.format == 'image') {
+                        item.html.find('.fileuploader-item-icon').hide();
+                    }
+                },
+                onItemRemove: function (html, listEl, parentEl, newInputEl, inputEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                        api = $.fileuploader.getInstance(inputEl.get(0));
+
+                    html.children().animate({ 'opacity': 0 }, 200, function () {
+                        setTimeout(function () {
+                            html.remove();
+
+                            if (api.getFiles().length - 1 < api.getOptions().limit) {
+                                plusInput.show();
+                            }
+                        }, 100);
+                    });
+
+                }
+            },
+
+            files: [
+                {
+                    name: '<?=$edit->list_img?>',
+                    type: 'image/jpg',
+                    file: '{{photo.external_middle}}',
+                    data: {
+                        url: '<?=base_url($edit->list_img)?>'
+                    }
+                },
+            ],
+            upload: {
+                //后台上传图片
+                url: '<?=site_url("goods/uploadGoodsImg/".$edit->id)?>',
+                data: null,
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                start: true,
+                synchron: true,
+                beforeSend: null,
+                onSuccess: function (data, item) {
+                    setTimeout(function () {
+                        item.html.find('.progress-holder').hide();
+                        item.renderImage();
+                    }, 400);
+                    // alert('图片上传成功');
+                },
+                onError: function (item) {
+                    alert('图片上传出错');
+                    item.html.find('.progress-holder').hide();
+                    item.html.find('.fileuploader-item-icon i').text('Failed!');
+                },
+                onProgress: function (data, item) {
+                    // alert('进度条');
+                    var progressBar = item.html.find('.progress-holder');
+
+                    if (progressBar.length > 0) {
+                        progressBar.show();
+                        progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
+                    }
+                }
+            },
+            afterRender: function (listEl, parentEl, newInputEl, inputEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                    api = $.fileuploader.getInstance(inputEl.get(0));
+
+                plusInput.on('click', function () {
+                    api.open();
+                });
+            }
+        });
+
+        /*商品相册*/
+        $('input[name="photo"]').fileuploader({
+            extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'],
+            changeInput: ' ',
+            theme: 'thumbnails',
+            enableApi: true,
+            addMore: true,    //true为多文件，false为单个文件
+
+
+
+            thumbnails: {
+                box: '<div class="fileuploader-items">' +
+                    '<ul class="fileuploader-items-list">' +
+                    '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                    '</ul>' +
+                    '</div>',
+                item: '<li class="fileuploader-item">' +
+                    '<div class="fileuploader-item-inner">' +
+                    '<div class="thumbnail-holder">${image}</div>' +
+                    '<div class="actions-holder">' +
+                    '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                    '</div>' +
+                    '<div class="progress-holder">${progressBar}</div>' +
+                    '</div>' +
+                    '</li>',
+                item2: '<li class="fileuploader-item">' +
+                    '<div class="fileuploader-item-inner">' +
+                    '<div class="thumbnail-holder">${image}</div>' +
+                    '<div class="actions-holder">' +
+                    '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</li>',
+                startImageRenderer: true,
+                canvasImage: false,
+                _selectors: {
+                    list: '.fileuploader-items-list',
+                    item: '.fileuploader-item',
+                    start: '.fileuploader-action-start',
+                    retry: '.fileuploader-action-retry',
+                    remove: '.fileuploader-action-remove'
+                },
+                onItemShow: function (item, listEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input');
+
+                    plusInput.insertAfter(item.html);
+
+                    if (item.format == 'image') {
+                        item.html.find('.fileuploader-item-icon').hide();
+                    }
+                }
+            },
+            afterRender: function (listEl, parentEl, newInputEl, inputEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                    api = $.fileuploader.getInstance(inputEl.get(0));
+
+                plusInput.on('click', function () {
+                    api.open();
+                });
+            },
+
+            // while using upload option, please set
+            // startImageRenderer: false
+            // for a better effect
+            upload: {
+                //后台上传图片
+                url: '<?=site_url("goods/uploadPhoto/".$edit->id)?>',
+                data: null,
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                start: true,
+                synchron: true,
+                beforeSend: null,
+                onSuccess: function (data, item) {
+                    setTimeout(function () {
+                        item.html.find('.progress-holder').hide();
+                        item.renderImage();
+                    }, 400);
+                    // alert('图片上传成功');
+                },
+                onError: function (item) {
+                    alert('图片上传出错');
+                    item.html.find('.progress-holder').hide();
+                    item.html.find('.fileuploader-item-icon i').text('Failed!');
+                },
+                onProgress: function (data, item) {
+                    // alert('进度条');
+                    var progressBar = item.html.find('.progress-holder');
+
+                    if (progressBar.length > 0) {
+                        progressBar.show();
+                        progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
+                    }
+                }
+            },
+            dragDrop: {
+                container: '.fileuploader-thumbnails-input'
+            },
+
+            onRemove: function (item) {
+                alert('删除商品相册单个图片');
+                var url = '<?=site_url("goods/removePhoto")?>';
+                $.post(url, {
+                    pid: item.name
+                });
+            },
+
+        });
+
+        /*上架时间*/
+        $("#up_time").datepicker({
+            language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+            todayBtn: true,//今日按钮
+            format: "yyyy-mm-dd"//日期格式， 
+        });
+
+        /*下架时间*/
+        $("#down_time").datepicker({
+            language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+            todayBtn: true,//今日按钮
+            format: "yyyy-mm-dd"//日期格式， 
+        });
+
+        $('.summernote').summernote({
+            // height: 300,
+            tabsize: 2,//调用图片上传
+            callbacks: {
+                onImageUpload: function (files) {
+                    sendFile(files[0], '.summernote');   //第二个参数要和上面一样
+                }
+            }
+        });
+
+        /*summernote上传图片*/
+        function sendFile(file, summernote) {
+            var formData = new FormData();
+            formData.append("file", file);
+            $.ajax({
+                url: "<?=site_url('upload/summernote')?>",  //上传图片URL
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function (data) {
+                    if (data.status) {
+                        $(summernote).summernote('insertImage', data.image, 'img');
+                    } else {
+                        console.log(data.error);
+                        alert('图片上传出错');
+                    }
+                }
+            });
+        }
+    });
+</script>
+<!-- 中间内容带JS end -->
+
+
+<!-- 中间内容 end -->
+{{/inline}}
+{{> (lookup this "parent")}}

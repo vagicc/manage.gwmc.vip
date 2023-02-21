@@ -1,6 +1,10 @@
-# IP地址及端口
-ip_address=0.0.0.0:5813
-#ip_address=127.0.0.1:5898  
+# 请把配置文件env改为.env
+
+# 监听端口: http => 80; https => 443
+PORT = 5813
+
+# 监听IPv6或监听IPv4
+IS_IPV6 = false
 
 # https证书   
 cert_path=tls/cert.pem

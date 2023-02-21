@@ -1,9 +1,9 @@
 [package]
 name = "manage-gwmc-vip"
-version = "0.1.0"
+version = "0.1.8"
 edition = "2021"
 readme = "README.md"
-keywords = ["reptile", "diesel"]
+keywords = ["reptile", "diesel", "admin", "warp"]
 repository = "https://github.com/vagicc/"
 authors = ["跟我买车技术支持：临来笑笑生 <luck@elapse.date>"]
 
@@ -13,9 +13,10 @@ authors = ["跟我买车技术支持：临来笑笑生 <luck@elapse.date>"]
 
 [dependencies]
 
-#tokio = { version="1.17.0", features=["full"]}
+#tokio = { version = "1.21.2", features = ["full"] }
 tokio = { version = "1.23.0", features = ["macros", "rt-multi-thread","fs"] }
 warp = { version = "0.3.3", features = ["tls","multipart","websocket"] }
+
 tokio-stream = "0.1.11"
 # websocket中使用到futures_util
 futures-util = "0.3.25"
@@ -26,10 +27,14 @@ diesel = { version="2.0.2",features=["extras","postgres","r2d2"] }
 #  diesel中的numeric类型用到 Nullable<Decimal>
 # bigdecimal = ">= 0.0.10, < 0.2.0"
 bigdecimal = "0.3.0"
+# diesel类型:Inet=> ipnetwork  (version = ">=0.12.2, <0.21.0")
+ipnetwork = "0.20.0"
 
 # 模板-隔离RUST和HTML
 # 基本用法: https://handlebarsjs.com/zh/guide/expressions.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95
-handlebars = "4.3.5"
+# handlebars = "4.2.2"
+# 文档：https://docs.rs/handlebars/4.3.6/handlebars/
+handlebars = "4.3.6"
 
 # 加载环境配置文件.env
 dotenv = "0.15.0"
@@ -49,6 +54,11 @@ serde_derive = "1.0.150"
 # 时间与日期 (带features = ["serde"],时间才能使用Deserialize, Serialize的特征)
 chrono = { version="0.4.23", features = ["serde"] }
 
+base64 = "0.20.0"
+
+#sha1加密,新版使用方法不同
+sha1 = "0.6.0"
+
 # 随机
 rand = "0.8.5"
 
@@ -56,3 +66,7 @@ rand = "0.8.5"
 env_logger = "0.10.0"
 log = "0.4.17"
 # pretty_env_logger = "0.4.0"
+
+# http请求
+reqwest = { version="0.11.10",features=["socks","json","blocking","cookies","gzip","brotli","multipart","deflate"]}
+select = "0.5.0"

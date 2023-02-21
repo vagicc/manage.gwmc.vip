@@ -1,4 +1,30 @@
-table! {
+// @generated automatically by Diesel CLI.
+
+diesel::table! {
+    admins (id) {
+        id -> Int4,
+        username -> Varchar,
+        password -> Varchar,
+        salt -> Bpchar,
+        email -> Nullable<Varchar>,
+        mobile -> Nullable<Bpchar>,
+        role -> Nullable<Int4>,
+        status -> Nullable<Int8>,
+        create_time -> Nullable<Timestamp>,
+        last_login -> Nullable<Timestamp>,
+    }
+}
+
+diesel::table! {
+    ci_sessions (id) {
+        id -> Varchar,
+        ip_address -> Inet,
+        timestamp -> Timestamptz,
+        data -> Bytea,
+    }
+}
+
+diesel::table! {
     demo (id) {
         id -> Int4,
         name -> Varchar,
@@ -6,7 +32,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     lawsuit_autocar (id) {
         id -> Int4,
         title -> Varchar,
@@ -43,7 +69,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     lawsuit_autocar_article (laid) {
         laid -> Int4,
         article_content -> Nullable<Text>,
@@ -51,7 +77,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     lawsuit_autocar_category (acid) {
         acid -> Int4,
         cname -> Nullable<Varchar>,
@@ -65,7 +91,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     lawsuit_autocar_photo (lapid) {
         lapid -> Int4,
         laid -> Int4,
@@ -85,7 +111,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     lawsuit_reptile (id) {
         id -> Int4,
         title -> Varchar,
@@ -109,7 +135,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     lawsuit_reptile_photo (lrpid) {
         lrpid -> Int4,
         lrid -> Int4,
@@ -120,7 +146,21 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
+    menus (id) {
+        id -> Int4,
+        order_by -> Int2,
+        path_full -> Nullable<Varchar>,
+        name -> Varchar,
+        level -> Nullable<Int2>,
+        parent -> Nullable<Int4>,
+        icon -> Nullable<Varchar>,
+        department -> Nullable<Int4>,
+        is_show -> Bool,
+    }
+}
+
+diesel::table! {
     oauth_access_tokens (access_token) {
         access_token -> Bpchar,
         client_id -> Bpchar,
@@ -130,7 +170,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     oauth_authorization_codes (authorization_code) {
         authorization_code -> Bpchar,
         client_id -> Bpchar,
@@ -142,7 +182,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     oauth_clients (client_id) {
         client_id -> Bpchar,
         client_secret -> Nullable<Varchar>,
@@ -153,7 +193,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     oauth_jwt (client_id) {
         client_id -> Bpchar,
         subject -> Nullable<Varchar>,
@@ -161,7 +201,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     oauth_refresh_tokens (refresh_token) {
         refresh_token -> Bpchar,
         client_id -> Bpchar,
@@ -171,14 +211,14 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     oauth_scopes (scope) {
         scope -> Bpchar,
         is_default -> Nullable<Int2>,
     }
 }
 
-table! {
+diesel::table! {
     oauth_users (user_id) {
         user_id -> Int4,
         username -> Varchar,
@@ -190,9 +230,40 @@ table! {
     }
 }
 
-joinable!(lawsuit_autocar_article -> lawsuit_autocar (laid));
+diesel::table! {
+    record (record_time) {
+        id -> Int4,
+        table_id -> Int4,
+        table_name -> Varchar,
+        user_id -> Int4,
+        username -> Varchar,
+        action -> Varchar,
+        ip -> Inet,
+        record_time -> Timestamp,
+    }
+}
 
-allow_tables_to_appear_in_same_query!(
+diesel::table! {
+    rights (right_id) {
+        right_id -> Int4,
+        right_name -> Nullable<Varchar>,
+        path_full -> Varchar,
+        right_detail -> Nullable<Varchar>,
+    }
+}
+
+diesel::table! {
+    roles (id) {
+        id -> Int4,
+        name -> Varchar,
+        rights -> Nullable<Array<Nullable<Int4>>>,
+        default -> Nullable<Varchar>,
+    }
+}
+
+diesel::allow_tables_to_appear_in_same_query!(
+    admins,
+    ci_sessions,
     demo,
     lawsuit_autocar,
     lawsuit_autocar_article,
@@ -200,6 +271,7 @@ allow_tables_to_appear_in_same_query!(
     lawsuit_autocar_photo,
     lawsuit_reptile,
     lawsuit_reptile_photo,
+    menus,
     oauth_access_tokens,
     oauth_authorization_codes,
     oauth_clients,
@@ -207,4 +279,7 @@ allow_tables_to_appear_in_same_query!(
     oauth_refresh_tokens,
     oauth_scopes,
     oauth_users,
+    record,
+    rights,
+    roles,
 );
