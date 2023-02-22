@@ -217,7 +217,7 @@ fn insert_table(data: crate::parse::Reptile, url: &str) {
     }
 }
 
-pub async fn detail(id: i32) -> std::result::Result<impl Reply, Rejection> {
+pub async fn detail(id: i32, session: Session) -> std::result::Result<impl Reply, Rejection> {
     match lawsuit_reptile_model::get_id(id) {
         Some(autocar) => {
             let mut data = Map::new();
@@ -227,7 +227,8 @@ pub async fn detail(id: i32) -> std::result::Result<impl Reply, Rejection> {
             let photo = lawsuit_reptile_photo_model::get_front_cover(id);
             data.insert("photo".to_string(), to_json(photo));
 
-            let html = to_html_single("reptile_detail.html", data);
+            // let html = to_html_single("reptile_detail.html", data);
+            let html = view("reptile/detail.html", data, session);
             log::info!("输出详情");
             Ok(warp::reply::html(html))
         }
@@ -286,6 +287,7 @@ impl LawsuitAutocarForm {
 pub async fn push_lawsuit_autocar(
     id: i32,
     form: LawsuitAutocarForm,
+    session: Session,
 ) -> std::result::Result<impl Reply, Rejection> {
     log::debug!("把数据写到lawsuit_reptile表 {:#?}", form);
 
