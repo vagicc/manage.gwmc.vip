@@ -19,16 +19,7 @@ pub async fn upload_html(session: Session) -> Result<impl Reply, Rejection> {
     Ok(warp::reply::html(html))
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct ImageUpload {
-    image: String,
-}
-
-pub async fn summernote(form: FormData, session: Session) -> Result<impl Reply, Rejection> {
-    let mut upload_return = ImageUpload {
-        image: String::new(),
-    };
-
+pub async fn summernote(form: FormData, _session: Session) -> Result<impl Reply, Rejection> {
     // println!("上传的表单：{:#?}", post);
     // if post.is_empty() {
     //     //408请求超时
@@ -55,7 +46,7 @@ pub async fn summernote(form: FormData, session: Session) -> Result<impl Reply, 
         );
     }
 
-    let mut part = parts.pop().unwrap();
+    let part = parts.pop().unwrap(); // let mut part=parts[0];
     let (name, filename) = upload_file(part).await;
     if name != "file" || filename.is_empty() {
         //408请求超时
@@ -65,10 +56,22 @@ pub async fn summernote(form: FormData, session: Session) -> Result<impl Reply, 
             Some("408请求超时".to_owned()),
         );
     }
-    upload_return.image = filename; //返回上传后的图片 ，这里是相对路径
-                                    // upload_return.image =format!("http://127.0.0.1:5813/{}",filename);
-                                    //{"status":200,"message":null,"data":{"image":"static/uploads/20232/2023225165513g3cEp.jpg"}}
-    return crate::common::response_json(warp::http::StatusCode::OK, Some(&upload_return), None);
+
+    #[derive(Debug, Clone, Deserialize, Serialize)]
+    struct ImageUpload {
+        image: String,
+    }
+
+    let upload_return = ImageUpload {
+        image: format!("{}{}", crate::common::get_env("IMAGE_URL"), filename),
+    };
+    // upload_return.image = filename; //返回上传后的图片 ，这里是相对路径
+    //{"status":200,"message":null,"data":{"image":"static/uploads/20232/2023225165513g3cEp.jpg"}}
+    return crate::common::response_json(
+        warp::http::StatusCode::OK,
+        Some(&upload_return),
+        Some("图片上传成功".to_owned()),
+    );
 }
 
 #[derive(Debug)]

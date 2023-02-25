@@ -126,14 +126,14 @@
 						<ul id="{{#if (eq ../current.department id)}}unfold{{/if}}" class="nav nav-list tree">
 							{{#each child}}
 								<li>
-									<a href="{{../../base_url}}{{path_full}}" {{#if (eq ../../current.path_full path_full)}}style="color: blue;"{{/if}} >
+									<a href="{{../../base_url}}{{path_full}}" {{#if (eq ../../current.path_full path_full)}}class=".bg-info" style="color: red;"{{/if}} >
 										{{name}}
 									</a>
 								</li>
 							{{/each}}
 						</ul>
 						{{else}}
-						<a href="{{../base_url}}{{path_full}}" {{#if (eq ../current.path_full path_full)}}style="color: blue;"{{/if}}>
+						<a href="{{../base_url}}{{path_full}}" {{#if (eq ../current.path_full path_full)}}style="color: red;"{{/if}}>
 							<span class="fa {{icon}}"></span> {{name}}
 						</a>
 						{{/if}}

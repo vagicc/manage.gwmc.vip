@@ -601,21 +601,14 @@
                 type: 'POST',
                 success: function (re) {
                     if (re.status == 200) {
-                        // alert(re.data.image);
-                        var img="{{base_url}}"+re.data.image;
-                        // alert(img);
-                        // $(summernote).summernote('insertImage', re.data.image, 'img');
-                        $(summernote).summernote('insertImage', img, 'img');
+                        // var img="{{base_url}}"+re.data.image;
+                        // $(summernote).summernote('insertImage', img, 'img');
+                        $(summernote).summernote('insertImage', re.data.image, 'img');
                     } else {
+                        console.log('图片上传出错');
                         console.log(re);
                         alert('图片上传出错');
                     }
-                    // if (data.status) {
-                    //     $(summernote).summernote('insertImage', data.image, 'img');
-                    // } else {
-                    //     console.log(data.error);
-                    //     alert('图片上传出错');
-                    // }
                 }
             });
         }

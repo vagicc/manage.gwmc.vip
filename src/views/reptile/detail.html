@@ -572,17 +572,20 @@
             var formData = new FormData();
             formData.append("file", file);
             $.ajax({
-                url: "<?=site_url('upload/summernote')?>",  //上传图片URL
+                url: "{{base_url}}upload/summernote",  //上传图片URL 
                 data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
                 type: 'POST',
-                success: function (data) {
-                    if (data.status) {
-                        $(summernote).summernote('insertImage', data.image, 'img');
+                success: function (re) {
+                    if (re.status == 200) {
+                        // var img="{{base_url}}"+re.data.image;
+                        // $(summernote).summernote('insertImage', img, 'img');
+                        $(summernote).summernote('insertImage', re.data.image, 'img');
                     } else {
-                        console.log(data.error);
+                        console.log('图片上传出错');
+                        console.log(re);
                         alert('图片上传出错');
                     }
                 }
