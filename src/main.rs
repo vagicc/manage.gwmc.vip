@@ -10,6 +10,7 @@ mod handlers;
 mod http;
 mod json_value;
 mod models;
+mod multipart_form;
 mod pager;
 mod parse;
 mod routes;

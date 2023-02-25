@@ -16,7 +16,10 @@ key_path=tls/key.rsa
 DATABASE_URL=postgres://user:passwd@127.0.0.1:5432/gwmc
 
 # 网址:用"//"开头，不用区分“https://"与”http://“
-BASE_URL=//127.0.0.1:5813/
+BASE_URL=//manage.gwmc.up:5813/
+
+# 图片及文件另用域名
+IMAGE_URL=https://manage.gwmc.up:5813/
 
 # 日志记录模式：Off,Error,Warn,Info,Debug,Trace
 RUST_LOG=Debug

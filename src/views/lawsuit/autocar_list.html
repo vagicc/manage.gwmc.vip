@@ -1,8 +1,10 @@
 {{#*inline "child"}}
+
+<!-- 中间内容 start -->
 <div class="panel box-shadow-none content-header">
     <div class="panel-body">
         <div class="col-md-12">
-            <h3 class="animated fadeInLeft">爬虫列表</h3>
+            <h3 class="animated fadeInLeft">法拍车推荐列表</h3>
             <div class="row">
                 <ol class="animated fadeInDown breadcrumb col-md-2 col-sm-12 col-xs-12">
                     <li><a href="">首页</a></li>
@@ -21,14 +23,15 @@
                         <form method="get">
 
                             <li>
-                                <label>标题：</label>
-                                <input type="text" name="title" value="" placeholder="" style="height:35px;width:130px">
+                                <label>矿池名：</label>
+                                <input type="text" name="pool_name" value="" placeholder=""
+                                    style="height:35px;width:130px">
                             </li>
                             <li>
-                                <select name="push">
-                                    <option value="">推送状态</option>
-                                    <option value="false">未推送</option>
-                                    <option value="true" selected>已推送</option>
+                                <select name="pool_type">
+                                    <option value="">选择类型</option>
+                                    <option value="选择一">选择一</option>
+                                    <option value="选择二" selected>选择二</option>
                                 </select>
                             </li>
 
@@ -37,16 +40,16 @@
                                     style="padding-right: 20px; padding-left: 20px;padding-top:5px;padding-bottom: 5px;">
                             </li>
                             <li>
-                                <a href="{{base_url}}reptile/list" class="btn btn-outline btn-warning"
+                                <a href="" class="btn btn-outline btn-warning"
                                     style="padding-right: 20px; padding-left: 20px;padding-top:5px;padding-bottom: 5px;">重置</a>
                             </li>
 
                             <!-- <li>
-                                <input type="submit" class="btn btn btn-gradient btn-info" value="搜索">
-                            </li>
-                            <li>
-                                <a href="" class="btn btn-gradient btn-warning">重置</a>
-                            </li> -->
+                                            <input type="submit" class="btn btn btn-gradient btn-info" value="搜索">
+                                        </li>
+                                        <li>
+                                            <a href="" class="btn btn-gradient btn-warning">重置</a>
+                                        </li> -->
                         </form>
                     </ul>
                 </div>
@@ -66,30 +69,30 @@
 
                 <!-- <?=view('alert/fade')?> -->
                 <!-- <div class="col-md-12">
-                    <div class="alert alert-warning alert-outline alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
-                        <strong>Warning!</strong> Best check yo self, you're not looking too good.
-                    </div>
+                                <div class="alert alert-warning alert-outline alert-dismissible fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <strong>Warning!</strong> Best check yo self, you're not looking too good.
+                                </div>
 
-                    <div class="alert alert-primary alert-outline alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
-                        <strong>Primary!</strong> Best check yo self, you're not looking too good.
-                    </div>
+                                <div class="alert alert-primary alert-outline alert-dismissible fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <strong>Primary!</strong> Best check yo self, you're not looking too good.
+                                </div>
 
-                    <div class="alert alert-info alert-outline alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
-                        <strong>Info!</strong> Best check yo self, you're not looking too good.
-                    </div>
+                                <div class="alert alert-info alert-outline alert-dismissible fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <strong>Info!</strong> Best check yo self, you're not looking too good.
+                                </div>
 
-                    <div class="alert alert-default alert-outline alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
-                        <strong>Default!</strong> Best check yo self, you're not looking too good.
-                    </div>
-                </div> -->
+                                <div class="alert alert-default alert-outline alert-dismissible fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <strong>Default!</strong> Best check yo self, you're not looking too good.
+                                </div>
+                            </div> -->
                 <!-- 警告(提示) end -->
 
                 <div class="col-md-12 padding-0" style="padding-bottom:20px;">
@@ -99,8 +102,7 @@
                     </div>
                     <div class="col-md-6 text-right">
                         <a href="" title="分币" class="btn btn-gradient btn-success">分币</a>
-                        <a href="{{base_url}}reptile/new" title="新抓" class="btn btn-gradient btn-info"
-                            target="_blank">新抓法拍车</a>
+                        <a href="" title="新增" class="btn btn-gradient btn-info">新增-弹窗</a>
                     </div>
                 </div>
 
@@ -112,10 +114,10 @@
                         <input type="button" class="btn btn-gradient btn-danger" value="删除"
                             onclick="return confirm('是否要删除ID:（用途：）？？');" />
                         <!-- <input type="button" class=" btn btn-gradient btn-primary" value="修改" />
-                        <input type="button" class="btn  btn-gradient btn-success" value="新增" />
-                        <input type="button" class="btn btn-gradient btn-default" value="返回" />
-                        <input type="button" class="btn btn-gradient btn-warning" value="警告" />
-                        <input type="button" class="btn btn-gradient btn-info" value="通知" /> -->
+                                    <input type="button" class="btn  btn-gradient btn-success" value="新增" />
+                                    <input type="button" class="btn btn-gradient btn-default" value="返回" />
+                                    <input type="button" class="btn btn-gradient btn-warning" value="警告" />
+                                    <input type="button" class="btn btn-gradient btn-info" value="通知" /> -->
 
                     </div>
 
@@ -128,7 +130,10 @@
                             <tr>
                                 <th><input type="checkbox" class="icheck gou" name="checkbox1" /></th>
                                 <th>标题</th>
-                                <th>起拍价</th>
+                                <th>起拍推荐评估</th>
+
+                                <th>开拍时间</th>
+                                <th>推荐时间</th>
 
                                 <th>操作-文字</th>
                                 <!-- <th>操作-图标</th> -->
@@ -150,11 +155,32 @@
                                     </a>
                                 </td>
                                 <td>
+
                                     <b class="hidden-md hidden-lg">起拍价：</b>
-                                    ￥{{price_base}}元
+                                    ￥{{price_base}}元 <br>
+                                    <b class="hidden-md hidden-lg">推荐价：</b>
+                                    ￥{{recommended_price}}元 <br>
+                                    <b class="hidden-md hidden-lg">评估价：</b>
+                                    ￥{{assess_price}}元 <br>
+
+                                </td>
+
+
+                                <td>
+                                    <b class="hidden-md hidden-lg">开拍时间：</b>
+                                    {{start_time}}
+                                </td>
+                                <td>
+                                    <b class="hidden-md hidden-lg">推荐时间：</b>
+                                    {{create_time}}
                                 </td>
 
                                 <td>
+                                    <a href="{{../base_url}}lawsuit/autocar/edit/{{id}}">
+                                        <i class="fa fa-edit"></i>修改
+                                        <span class="text-muted"></span>
+                                    </a> |
+
                                     <a href="{{../base_url}}" style="color:#27C24C;">
                                         <i class="fa fa-plus-square-o"></i>新增
                                         <span class="text-muted"></span>
@@ -207,25 +233,25 @@
                                     </a>
                                 </td>
                                 <!-- <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-success">
-                                            <i class="ace-icon fa fa-check bigger-120"></i>
-                                        </a>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-xs btn-success">
+                                                        <i class="ace-icon fa fa-check bigger-120"></i>
+                                                    </a>
 
-                                        <a class="btn btn-xs btn-info">
-                                            <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                        </a>
+                                                    <a class="btn btn-xs btn-info">
+                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                    </a>
 
-                                        <a class="btn btn-xs btn-danger"
-                                            onclick="return confirm('是否要删除ID:（用途：）？？');">
-                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                        </a>
+                                                    <a class="btn btn-xs btn-danger"
+                                                        onclick="return confirm('是否要删除ID:（用途：）？？');">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </a>
 
-                                        <a class="btn btn-xs btn-warning">
-                                            <i class="ace-icon fa fa-flag bigger-120"></i>
-                                        </a>
-                                    </div>
-                                </td> -->
+                                                    <a class="btn btn-xs btn-warning">
+                                                        <i class="ace-icon fa fa-flag bigger-120"></i>
+                                                    </a>
+                                                </div>
+                                            </td> -->
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="icheck" name="checkbox2" /></td>
@@ -236,9 +262,9 @@
 
                                 <td>
                                     <!-- <a href="" style="color:#27C24C;">
-                                        <i class="fa fa-plus-square-o"></i>新增
-                                        <span class="text-muted"></span>
-                                    </a> | -->
+                                                    <i class="fa fa-plus-square-o"></i>新增
+                                                    <span class="text-muted"></span>
+                                                </a> | -->
                                     <a href="">
                                         <i class="fa fa-edit"></i>修改
                                         <span class="text-muted"></span>
@@ -252,25 +278,25 @@
                                     </a>
                                 </td>
                                 <!-- <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-success">
-                                            <i class="ace-icon fa fa-check bigger-120"></i>
-                                        </a>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-xs btn-success">
+                                                        <i class="ace-icon fa fa-check bigger-120"></i>
+                                                    </a>
 
-                                        <a class="btn btn-xs btn-info">
-                                            <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                        </a>
+                                                    <a class="btn btn-xs btn-info">
+                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                    </a>
 
-                                        <a class="btn btn-xs btn-danger"
-                                            onclick="return confirm('是否要删除ID:（用途：）？？');">
-                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                        </a>
+                                                    <a class="btn btn-xs btn-danger"
+                                                        onclick="return confirm('是否要删除ID:（用途：）？？');">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </a>
 
-                                        <a class="btn btn-xs btn-warning">
-                                            <i class="ace-icon fa fa-flag bigger-120"></i>
-                                        </a>
-                                    </div>
-                                </td> -->
+                                                    <a class="btn btn-xs btn-warning">
+                                                        <i class="ace-icon fa fa-flag bigger-120"></i>
+                                                    </a>
+                                                </div>
+                                            </td> -->
                             </tr>
 
 
@@ -293,22 +319,22 @@
                     <div class="pull-right">
 
                         <!-- <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul> -->
+                                        <li>
+                                            <a href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="active"><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li>
+                                            <a href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul> -->
                         <ul class="pagination pull-right">
                             {{{pages}}}
                         </ul>
@@ -384,8 +410,8 @@
                         <thead>
                             <tr>
                                 <!-- <th>
-                                    <input type="checkbox" class="icheck gou" name="checkbox1" />
-                                </th> -->
+                                                <input type="checkbox" class="icheck gou" name="checkbox1" />
+                                            </th> -->
                                 <th>时间</th>
                                 <th>用户ID</th>
                                 <th>数量</th>
@@ -395,8 +421,8 @@
 
                             <tr>
                                 <!-- <td>
-                                            <input type="checkbox" class="icheck none" name="id[1]" value="<?= $value->id ?>" />
-                                        </td> -->
+                                                        <input type="checkbox" class="icheck none" name="id[1]" value="<?= $value->id ?>" />
+                                                    </td> -->
                                 <td>
                                     <b class="hidden-md hidden-lg">时间：</b>
                                     2021-02-01 15:12:98
@@ -415,8 +441,8 @@
                             </tr>
                             <tr>
                                 <!-- <td>
-                                            <input type="checkbox" class="icheck none" name="id[2]" value="<?= $value->id ?>" />
-                                        </td> -->
+                                                        <input type="checkbox" class="icheck none" name="id[2]" value="<?= $value->id ?>" />
+                                                    </td> -->
                                 <td>
                                     <b class="hidden-md hidden-lg">时间：</b>
                                     1028-02-01 15:12:98
@@ -456,9 +482,7 @@
 
 
 <!-- 中间内容带JS start -->
-<link type="text/css" href="asset/css/bootstrap-datetimepicker.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="asset/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="asset/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
 <script src="asset/js/plugins/icheck.min.js"></script>
 
 <script type="text/javascript">
@@ -540,5 +564,8 @@
     }
 </script>
 <!-- 中间内容带JS end -->
+
+
+<!-- 中间内容 end -->
 {{/inline}}
 {{> (lookup this "parent")}}

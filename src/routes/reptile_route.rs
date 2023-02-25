@@ -66,6 +66,7 @@ pub fn detail() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejecti
         .and(warp::path::end())
         .and(warp::body::form()) //warp::multipart::form()
         // .and(warp::multipart::form()) //warp::body::form()
+        .and(with_session())
         .and_then(reptile_handler::push_lawsuit_autocar);
 
     warp::get()
@@ -73,6 +74,7 @@ pub fn detail() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejecti
         .and(warp::path("detail"))
         .and(warp::path::param())
         .and(warp::path::end())
+        .and(with_session())
         .and_then(reptile_handler::detail)
         .or(post)
 }

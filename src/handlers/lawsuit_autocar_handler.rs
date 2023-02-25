@@ -1,5 +1,7 @@
 use crate::models::lawsuit_autocar_model;
+use crate::session::Session;
 use crate::template::to_html_single;
+use crate::template::view;
 use handlebars::{to_json, Handlebars};
 use serde_json::value::Map;
 use warp::{Rejection, Reply};
@@ -12,7 +14,7 @@ type ResultWarp<T> = std::result::Result<T, Rejection>;
 // }
 
 // 分页显示
-pub async fn list(page: u32) -> ResultWarp<impl Reply> {
+pub async fn list(page: u32, session: Session) -> ResultWarp<impl Reply> {
     let per: u32 = 8; //每页总数
     let (count, list) = lawsuit_autocar_model::get_list(Some(page), Some(per));
     let pages = crate::pager::default_full("lawsuit/autocar", count, page, per);
@@ -21,7 +23,8 @@ pub async fn list(page: u32) -> ResultWarp<impl Reply> {
     data.insert("list".to_string(), to_json(list));
     data.insert("pages".to_string(), to_json(pages));
 
-    let html = to_html_single("lawsuit_autocar_list.html", data);
+    // let html = to_html_single("lawsuit_autocar_list.html", data);
+    let html = view("lawsuit/autocar_list.html", data, session);
     Ok(warp::reply::html(html))
 }
 
@@ -76,7 +79,7 @@ impl LawsuitAutocarForm {
 /*
 接收POST数据
  */
-pub async fn edit(id: i32, form: LawsuitAutocarForm) -> ResultWarp<impl Reply> {
+pub async fn edit(id: i32, form: LawsuitAutocarForm, session: Session) -> ResultWarp<impl Reply> {
     log::warn!("接收到POST");
     match form.validate() {
         Ok(post) => {
@@ -149,7 +152,7 @@ pub async fn edit(id: i32, form: LawsuitAutocarForm) -> ResultWarp<impl Reply> {
 }
 
 // 输出要修改的html
-pub async fn detail(id: i32) -> ResultWarp<impl Reply> {
+pub async fn detail(id: i32, session: Session) -> ResultWarp<impl Reply> {
     log::info!("输出修改推荐");
     let detail = lawsuit_autocar_model::get_id(id);
 
@@ -169,6 +172,7 @@ pub async fn detail(id: i32) -> ResultWarp<impl Reply> {
     data.insert("article".to_string(), to_json(article));
     data.insert("photo".to_string(), to_json(photo));
 
-    let html = to_html_single("lawsuit_autocar_edit.html", data);
+    // let html = to_html_single("lawsuit_autocar_edit.html", data);
+    let html = view("lawsuit/autocar_edit.html", data, session);
     Ok(warp::reply::html(html))
 }
