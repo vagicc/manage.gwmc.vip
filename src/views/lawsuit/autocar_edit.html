@@ -1,357 +1,348 @@
 {{#*inline "child"}}
 
-            <!-- 中间内容 start -->
-            <div class="panel box-shadow-none content-header">
-                <div class="panel-body">
-                    <div class="col-md-12">
-                        <h3 class="animated fadeInLeft">法拍车爬虫处理</h3>
-                        <ol class="animated fadeInDown breadcrumb">
-                            <li><a href="<?=site_url()?>">首页</a></li>
-                            <li><a href="<?=site_url('goods/index')?>">法拍车列表</a></li>
-                            <li class="active">修改</li>
-                        </ol>
-                    </div>
+<!-- 中间内容 start -->
+<div class="panel box-shadow-none content-header">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <h3 class="animated fadeInLeft">法拍车爬虫处理</h3>
+            <ol class="animated fadeInDown breadcrumb">
+                <li><a href="<?=site_url()?>">首页</a></li>
+                <li><a href="<?=site_url('goods/index')?>">法拍车列表</a></li>
+                <li class="active">修改</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="form-element">
+    <div class="col-md-12 padding-0">
+        <div class="col-md-12">
+            <div class="panel form-element-padding">
+
+                <div class="panel-heading">
+
+                    <a href="javascript:history.back(-1);" class="btn btn-default right">返回</a>
+                    <h4>修改:<a href="{{detail.external_url}}" target="_blank">{{detail.title}}</a></h4>
+
                 </div>
-            </div>
-
-
-
-            <div class="form-element">
-                <div class="col-md-12 padding-0">
+                <div class="panel-body" style="padding-bottom:30px;">
                     <div class="col-md-12">
-                        <div class="panel form-element-padding">
+                        <form method="post" class="form-horizontal" role="form">
 
-                            <div class="panel-heading">
-
-                                <a href="javascript:history.back(-1);" class="btn btn-default right">返回</a>
-                                <h4>修改:<a href="{{detail.external_url}}" target="_blank">{{detail.title}}</a></h4>
-
-                            </div>
-                            <div class="panel-body" style="padding-bottom:30px;">
-                                <div class="col-md-12">
-                                    <form method="post" class="form-horizontal" role="form">
-
-                                        <!-- <div class="form-group">
+                            <!-- <div class="form-group">
                                             <label class="col-sm-2 control-label text-right">法拍车标题</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="title" value="{{detail.title}}"
                                                     placeholder="标题" class="form-control">
                                             </div>
                                         </div> -->
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">法拍车标题</label>
-                                            <div class="input-group" style="margin-top: -15px;">
-                                                <span class="input-group-addon"
-                                                    id="basic-addon1">{{detail.stage}}</span>
-                                                <input type="text" name="title" value="{{detail.title}}"
-                                                    class="form-control" placeholder="标题"
-                                                    aria-describedby="basic-addon1">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">处置单位</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" value="{{detail.disposal_unit}}" class="form-control"
-                                                    disabled="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">标的物所在</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" value="{{detail.address}}" class="form-control"
-                                                    disabled="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group has-warning">
-                                            <label class="col-sm-2 control-label text-right">起拍价</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="price_base" value="{{detail.price_base}}"
-                                                    placeholder="起拍价" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group has-error">
-                                            <label class="col-sm-2 control-label text-right">评估价</label>
-                                            <div class="input-group" style="margin-top: -15px;">
-                                                <input type="text" name="assess_price" value="{{detail.assess_price}}"
-                                                    placeholder="评估价" aria-describedby="basic-addon2"
-                                                    class="form-control">
-                                                <span class="input-group-addon" id="basic-addon2">元</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group has-error">
-                                            <label class="col-sm-2 control-label text-right">当前价</label>
-                                            <div class="input-group" style="margin-top: -15px;">
-                                                <input type="text" name="current_price" value="{{detail.current_price}}"
-                                                    placeholder="当前价" aria-describedby="basic-addon2"
-                                                    class="form-control">
-                                                <span class="input-group-addon" id="basic-addon2">元</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group has-success">
-                                            <label class="col-sm-2 control-label text-right">最高推荐价</label>
-                                            <div class="input-group" style="margin-top: -15px;">
-                                                <input type="text" name="recommended_price"
-                                                    value="{{detail.recommended_price}}" placeholder="最高推荐价"
-                                                    aria-describedby="basic-addon2" class="form-control" required>
-                                                <span class="input-group-addon" id="basic-addon2">元</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">推荐星数1-10</label>
-                                            <div class="col-sm-10">
-                                                <input type="number" name="recommend" value="{{detail.recommend}}"
-                                                    placeholder="推荐星数1-10" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">车牌号</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="license" value="{{detail.license}}"
-                                                    placeholder="车牌号" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group has-success">
-                                            <label class="col-sm-2 control-label text-right">已行驶公里数</label>
-                                            <div class="input-group" style="margin-top: -15px;">
-                                                <input type="number" name="kilometer" value="{{detail.kilometer}}"
-                                                    placeholder="18" aria-describedby="basic-addon2"
-                                                    class="form-control">
-                                                <span class="input-group-addon" id="basic-addon2">公里</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-
-                                            <label class="col-sm-2 control-label text-right">变速箱</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="gearbox" value="{{detail.gearbox}}"
-                                                    placeholder="手动6档" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-
-                                            <label class="col-sm-2 control-label text-right">排放阶段</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="emission" value="{{detail.emission}}"
-                                                    placeholder="例:国六" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">燃料</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="fuel_type" value="{{detail.fuel_type}}"
-                                                    placeholder="汽油,柴油,纯电,油电混合,氢能电池,氢能" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">通用车型号</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="universal_model"
-                                                    value="{{detail.universal_model}}" placeholder="2022年款手动四驱柴油"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">注册登记</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="registration" value="{{detail.registration}}"
-                                                    placeholder="2023-01-18" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">生产日期</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="production_date"
-                                                    value="{{detail.production_date}}" placeholder="2018-08-18"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">厂家车型</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="autocar_model" value="{{detail.autocar_model}}"
-                                                    placeholder="厂家车型" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">VIM</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="vim" value="{{detail.vim}}" placeholder="车架号"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">发动机号</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="engine_number" value="{{detail.engine_number}}"
-                                                    placeholder="发动机号" class="form-control">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">违章</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="violating" value="{{detail.violating}}"
-                                                    placeholder="扣1分,无罚款" class="form-control">
-                                            </div>
-                                        </div>
-
-
-
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">
-                                                封面图-列表图<br>尺寸：<b style="color: red;">176*255</b>
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input type="file" name="goods_img" value="ddd89999">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group"><label
-                                                class="col-sm-2 control-label text-right">是否{{detail.show}}展示</label>
-                                            <div class="col-sm-10">
-
-                                                <input type="checkbox" id="show" {{#if (eq detail.show true) }}checked{{/if}}>
-
-                                                <input type="hidden" name="show" value="true">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group has-warning">
-                                            <label class="col-sm-2 control-label text-right">车摘要</label>
-                                            <div class="col-sm-10">
-                                                <textarea name="summary" class="form-control" placeholder="商品摘要:规格与包装"
-                                                    rows="3">{{detail.summary}}</textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label text-right">推荐车文章内容</label>
-                                            <div class="col-sm-10">
-                                                <textarea name="description" class="form-control summernote" rows="8">
-                                                    {{article.article_content}}
-                                                </textarea>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group"><label class="col-sm-2 control-label text-right">
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="col-sm-12 padding-0">
-
-                                                    <!-- 当前价 -->
-                                                    <input type="hidden" name="margin" value="{{detail.margin}}">
-                                                    <!-- 保证金 -->
-                                                    <input type="hidden" name="start_time"
-                                                        value="{{detail.start_time}}"><!-- 开始时间 -->
-                                                    <input type="hidden" name="end_time" value="{{detail.end_time}}">
-                                                    <!-- 结束时间 -->
-                                                    <input type="hidden" name="address" value="{{detail.address}}">
-                                                    <!-- 地址 -->
-                                                    <input type="hidden" name="disposal_unit"
-                                                        value="{{detail.disposal_unit}}"> <!-- 处置单位:所属法院 -->
-                                                    <input type="hidden" name="external_url"
-                                                        value="{{detail.external_url}}"> <!-- 拍卖详情URL -->
-                                                    <input type="hidden" name="belong" value="{{detail.belong}}">
-                                                    <!-- 所属平台（1.淘宝、2.京东） -->
-                                                    <input type="hidden" name="stage" value="{{detail.stage}}">
-                                                    <!-- 拍卖阶段（一拍、二拍、变卖、撤回） -->
-                                                    <input type="hidden" name="list_img" value="{{detail.list_img}}">
-
-                                                    <!-- 状态（1待开拍、2竞拍中、已结束:3成交，4流拍、0无效或撤回） -->
-                                                    <input type="hidden" name="status" value="{{detail.status}}">
-                                                    <input type="hidden" name="create_time" value="{{detail.create_time}}">
-
-
-                                                    <button class="btn btn-info btn-success" type="Submit">
-                                                        <i class="ace-icon fa fa-check bigger-110"></i>
-                                                        提交
-                                                    </button>
-
-                                                    &nbsp; &nbsp; &nbsp;
-                                                    <button class="btn" type="reset"
-                                                        onclick="javascript:history.back(-1);">
-                                                        <i class="ace-icon fa fa-undo bigger-110"></i>
-                                                        取消
-                                                    </button>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </form>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">法拍车标题</label>
+                                <div class="input-group" style="margin-top: -15px;">
+                                    <span class="input-group-addon" id="basic-addon1">{{detail.stage}}</span>
+                                    <input type="text" name="title" value="{{detail.title}}" class="form-control"
+                                        placeholder="标题" aria-describedby="basic-addon1">
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">处置单位</label>
+                                <div class="col-sm-10">
+                                    <input type="text" value="{{detail.disposal_unit}}" class="form-control"
+                                        disabled="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">标的物所在</label>
+                                <div class="col-sm-10">
+                                    <input type="text" value="{{detail.address}}" class="form-control" disabled="">
+                                </div>
+                            </div>
+                            <div class="form-group has-warning">
+                                <label class="col-sm-2 control-label text-right">起拍价</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="price_base" value="{{detail.price_base}}" placeholder="起拍价"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group has-error">
+                                <label class="col-sm-2 control-label text-right">评估价</label>
+                                <div class="input-group" style="margin-top: -15px;">
+                                    <input type="text" name="assess_price" value="{{detail.assess_price}}"
+                                        placeholder="评估价" aria-describedby="basic-addon2" class="form-control">
+                                    <span class="input-group-addon" id="basic-addon2">元</span>
+                                </div>
+                            </div>
+                            <div class="form-group has-error">
+                                <label class="col-sm-2 control-label text-right">当前价</label>
+                                <div class="input-group" style="margin-top: -15px;">
+                                    <input type="text" name="current_price" value="{{detail.current_price}}"
+                                        placeholder="当前价" aria-describedby="basic-addon2" class="form-control">
+                                    <span class="input-group-addon" id="basic-addon2">元</span>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-sm-2 control-label text-right">最高推荐价</label>
+                                <div class="input-group" style="margin-top: -15px;">
+                                    <input type="text" name="recommended_price" value="{{detail.recommended_price}}"
+                                        placeholder="最高推荐价" aria-describedby="basic-addon2" class="form-control"
+                                        required>
+                                    <span class="input-group-addon" id="basic-addon2">元</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">推荐星数1-10</label>
+                                <div class="col-sm-10">
+                                    <input type="number" name="recommend" value="{{detail.recommend}}"
+                                        placeholder="推荐星数1-10" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">车牌号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="license" value="{{detail.license}}" placeholder="车牌号"
+                                        class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group has-success">
+                                <label class="col-sm-2 control-label text-right">已行驶公里数</label>
+                                <div class="input-group" style="margin-top: -15px;">
+                                    <input type="number" name="kilometer" value="{{detail.kilometer}}" placeholder="18"
+                                        aria-describedby="basic-addon2" class="form-control">
+                                    <span class="input-group-addon" id="basic-addon2">公里</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-sm-2 control-label text-right">变速箱</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="gearbox" value="{{detail.gearbox}}" placeholder="手动6档"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-sm-2 control-label text-right">排放阶段</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="emission" value="{{detail.emission}}" placeholder="例:国六"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">燃料</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="fuel_type" value="{{detail.fuel_type}}"
+                                        placeholder="汽油,柴油,纯电,油电混合,氢能电池,氢能" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">通用车型号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="universal_model" value="{{detail.universal_model}}"
+                                        placeholder="2022年款手动四驱柴油" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">注册登记</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="registration" value="{{detail.registration}}"
+                                        placeholder="2023-01-18" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">生产日期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="production_date" value="{{detail.production_date}}"
+                                        placeholder="2018-08-18" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">厂家车型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="autocar_model" value="{{detail.autocar_model}}"
+                                        placeholder="厂家车型" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">VIM</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="vim" value="{{detail.vim}}" placeholder="车架号"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">发动机号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="engine_number" value="{{detail.engine_number}}"
+                                        placeholder="发动机号" class="form-control">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">违章</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="violating" value="{{detail.violating}}"
+                                        placeholder="扣1分,无罚款" class="form-control">
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">
+                                    封面图-列表图<br>尺寸：<b style="color: red;">176*255</b>
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="goods_img" value="ddd89999">
+                                </div>
+                            </div>
+
+                            <div class="form-group"><label
+                                    class="col-sm-2 control-label text-right">是否{{detail.show}}展示</label>
+                                <div class="col-sm-10">
+
+                                    <input type="checkbox" id="show" {{#if (eq detail.show true) }}checked{{/if}}>
+
+                                    <input type="hidden" name="show" value="true">
+                                </div>
+                            </div>
+
+                            <div class="form-group has-warning">
+                                <label class="col-sm-2 control-label text-right">车摘要</label>
+                                <div class="col-sm-10">
+                                    <textarea name="summary" class="form-control" placeholder="商品摘要:规格与包装"
+                                        rows="3">{{detail.summary}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">推荐车文章内容</label>
+                                <div class="col-sm-10">
+                                    <textarea name="description" class="form-control summernote" rows="8">
+                                                    {{article.article_content}}
+                                                </textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group"><label class="col-sm-2 control-label text-right">
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="col-sm-12 padding-0">
+
+                                        <!-- 当前价 -->
+                                        <input type="hidden" name="margin" value="{{detail.margin}}">
+                                        <!-- 保证金 -->
+                                        <input type="hidden" name="start_time"
+                                            value="{{detail.start_time}}"><!-- 开始时间 -->
+                                        <input type="hidden" name="end_time" value="{{detail.end_time}}">
+                                        <!-- 结束时间 -->
+                                        <input type="hidden" name="address" value="{{detail.address}}">
+                                        <!-- 地址 -->
+                                        <input type="hidden" name="disposal_unit" value="{{detail.disposal_unit}}">
+                                        <!-- 处置单位:所属法院 -->
+                                        <input type="hidden" name="external_url" value="{{detail.external_url}}">
+                                        <!-- 拍卖详情URL -->
+                                        <input type="hidden" name="belong" value="{{detail.belong}}">
+                                        <!-- 所属平台（1.淘宝、2.京东） -->
+                                        <input type="hidden" name="stage" value="{{detail.stage}}">
+                                        <!-- 拍卖阶段（一拍、二拍、变卖、撤回） -->
+                                        <input type="hidden" name="list_img" value="{{detail.list_img}}">
+
+                                        <!-- 状态（1待开拍、2竞拍中、已结束:3成交，4流拍、0无效或撤回） -->
+                                        <input type="hidden" name="status" value="{{detail.status}}">
+                                        <input type="hidden" name="create_time" value="{{detail.create_time}}">
+
+
+                                        <button class="btn btn-info btn-success" type="Submit">
+                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                            提交
+                                        </button>
+
+                                        &nbsp; &nbsp; &nbsp;
+                                        <button class="btn" type="reset" onclick="javascript:history.back(-1);">
+                                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                                            取消
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
 
 
 
 
 
-            <!-- 中间内容带JS start -->
+<!-- 中间内容带JS start -->
 
-            <link rel="stylesheet" type="text/css" href="asset/css/datepicker.css" />
-            <link rel="stylesheet" href="summernote/summernote.css">
+<link rel="stylesheet" type="text/css" href="asset/css/datepicker.css" />
+<link rel="stylesheet" href="summernote/summernote.css">
 
-            <script type="text/javascript" src="summernote/summernote.js"></script>
-            <script src="asset/js/bootstrap-datepicker.js"></script>
-            <script src="asset/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script type="text/javascript" src="summernote/summernote.js"></script>
+<script src="asset/js/bootstrap-datepicker.js"></script>
+<script src="asset/js/locales/bootstrap-datepicker.zh-CN.js"></script>
 
-            <!-- 图片上传样式 start -->
-            <link href="asset/uploader/src/jquery.fileuploader.css" media="all" rel="stylesheet">
-            <link href="asset/uploader/css/thumbnails.css" media="all" rel="stylesheet">
-            <script src="asset/uploader/src/jquery.fileuploader.js" type="text/javascript"></script>
-            <!-- 图片上传样式 end -->
+<!-- 图片上传样式 start -->
+<link href="asset/uploader/src/jquery.fileuploader.css" media="all" rel="stylesheet">
+<link href="asset/uploader/css/thumbnails.css" media="all" rel="stylesheet">
+<script src="asset/uploader/src/jquery.fileuploader.js" type="text/javascript"></script>
+<!-- 图片上传样式 end -->
 
-            <link rel="stylesheet" type="text/css" href="asset/css/bootstrap-switch.css">
-            <script src="asset/js/bootstrap-switch.js"></script>
+<link rel="stylesheet" type="text/css" href="asset/css/bootstrap-switch.css">
+<script src="asset/js/bootstrap-switch.js"></script>
 
-            <script type="text/javascript">
-                $(function () {
+<script type="text/javascript">
+    $(function () {
 
-                    $("#show").bootstrapSwitch({
-                        onText: '推送',
-                        offText: '隐藏',
-                        onColor: "info",
-                        offColor: "danger",
-                        size: "small",
-                        onSwitchChange: function (event, state) {
-                            if (state == true) {
-                                // alert('显示');
-                                $("input[name='show']").val("true");
-                            } else {
-                                // alert('不显示');
-                                $("input[name='show']").val("false");
-                            }
-                        }
-                    });
+        $("#show").bootstrapSwitch({
+            onText: '推送',
+            offText: '隐藏',
+            onColor: "info",
+            offColor: "danger",
+            size: "small",
+            onSwitchChange: function (event, state) {
+                if (state == true) {
+                    // alert('显示');
+                    $("input[name='show']").val("true");
+                } else {
+                    // alert('不显示');
+                    $("input[name='show']").val("false");
+                }
+            }
+        });
 
-                    /*商品图(列表商品时显示176*255))*/
-                    $('input[name="goods_img"]').fileuploader({
-                        limit: 1,
-                        extensions: ['jpg', 'jpeg', 'png', 'gif'],
-                        changeInput: ' ',
-                        theme: 'thumbnails',
-                        enableApi: true,
-                        addMore: false,      //true为多文件，false为单个文件
-                        thumbnails: {
-                            box: '<div class="fileuploader-items">\
+        /*商品图(列表商品时显示176*255))*/
+        $('input[name="goods_img"]').fileuploader({
+            limit: 1,
+            extensions: ['jpg', 'jpeg', 'png', 'gif'],
+            changeInput: ' ',
+            theme: 'thumbnails',
+            enableApi: true,
+            addMore: false,      //true为多文件，false为单个文件
+            thumbnails: {
+                box: '<div class="fileuploader-items">\
 	                      <ul class="fileuploader-items-list">\
 						      <li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>\
 	                      </ul>\
 	                  </div>',
-                            item: '<li class="fileuploader-item">\
+                item: '<li class="fileuploader-item">\
 					       <div class="fileuploader-item-inner">\
 	                           <div class="thumbnail-holder">${image}</div>\
 	                           <div class="actions-holder">\
@@ -360,7 +351,7 @@
 	                       	   <div class="progress-holder">${progressBar}</div>\
 	                       </div>\
 	                   </li>',
-                            item2: '<li class="fileuploader-item">\
+                item2: '<li class="fileuploader-item">\
 					       <div class="fileuploader-item-inner">\
 	                           <div class="thumbnail-holder">${image}</div>\
 	                           <div class="actions-holder">\
@@ -368,261 +359,271 @@
 	                           </div>\
 	                       </div>\
 	                   </li>',
-                            startImageRenderer: true,
-                            canvasImage: false,
-                            _selectors: {
-                                list: '.fileuploader-items-list',
-                                item: '.fileuploader-item',
-                                start: '.fileuploader-action-start',
-                                retry: '.fileuploader-action-retry',
-                                remove: '.fileuploader-action-remove'
-                            },
-                            onItemShow: function (item, listEl, parentEl, newInputEl, inputEl) {
-                                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                                    api = $.fileuploader.getInstance(inputEl.get(0));
+                startImageRenderer: true,
+                canvasImage: false,
+                _selectors: {
+                    list: '.fileuploader-items-list',
+                    item: '.fileuploader-item',
+                    start: '.fileuploader-action-start',
+                    retry: '.fileuploader-action-retry',
+                    remove: '.fileuploader-action-remove'
+                },
+                onItemShow: function (item, listEl, parentEl, newInputEl, inputEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                        api = $.fileuploader.getInstance(inputEl.get(0));
 
-                                if (api.getFiles().length >= api.getOptions().limit) {
-                                    plusInput.hide();
-                                }
-
-                                plusInput.insertAfter(item.html);
-
-
-                                if (item.format == 'image') {
-                                    item.html.find('.fileuploader-item-icon').hide();
-                                }
-                            },
-                            onItemRemove: function (html, listEl, parentEl, newInputEl, inputEl) {
-                                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                                    api = $.fileuploader.getInstance(inputEl.get(0));
-
-                                html.children().animate({ 'opacity': 0 }, 200, function () {
-                                    setTimeout(function () {
-                                        html.remove();
-
-                                        if (api.getFiles().length - 1 < api.getOptions().limit) {
-                                            plusInput.show();
-                                        }
-                                    }, 100);
-                                });
-
-                            }
-                        },
-
-                        files: [
-                            {
-                                name: '<?=$edit->list_img?>',
-                                type: 'image/jpg',
-                                file: '{{photo.0.external_middle}}',   //这里为数组
-                                data: {
-                                    url: '<?=base_url($edit->list_img)?>'
-                                }
-                            },
-                        ],
-                        upload: {
-                            //后台上传图片
-                            url: '<?=site_url("goods/uploadGoodsImg/".$edit->id)?>',
-                            data: null,
-                            type: 'POST',
-                            enctype: 'multipart/form-data',
-                            start: true,
-                            synchron: true,
-                            beforeSend: null,
-                            onSuccess: function (data, item) {
-                                setTimeout(function () {
-                                    item.html.find('.progress-holder').hide();
-                                    item.renderImage();
-                                }, 400);
-                                // alert('图片上传成功');
-                            },
-                            onError: function (item) {
-                                alert('图片上传出错');
-                                item.html.find('.progress-holder').hide();
-                                item.html.find('.fileuploader-item-icon i').text('Failed!');
-                            },
-                            onProgress: function (data, item) {
-                                // alert('进度条');
-                                var progressBar = item.html.find('.progress-holder');
-
-                                if (progressBar.length > 0) {
-                                    progressBar.show();
-                                    progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
-                                }
-                            }
-                        },
-                        afterRender: function (listEl, parentEl, newInputEl, inputEl) {
-                            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                                api = $.fileuploader.getInstance(inputEl.get(0));
-
-                            plusInput.on('click', function () {
-                                api.open();
-                            });
-                        }
-                    });
-
-                    /*商品相册*/
-                    $('input[name="photo"]').fileuploader({
-                        extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'],
-                        changeInput: ' ',
-                        theme: 'thumbnails',
-                        enableApi: true,
-                        addMore: true,    //true为多文件，false为单个文件
-
-
-
-                        thumbnails: {
-                            box: '<div class="fileuploader-items">' +
-                                '<ul class="fileuploader-items-list">' +
-                                '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
-                                '</ul>' +
-                                '</div>',
-                            item: '<li class="fileuploader-item">' +
-                                '<div class="fileuploader-item-inner">' +
-                                '<div class="thumbnail-holder">${image}</div>' +
-                                '<div class="actions-holder">' +
-                                '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                                '</div>' +
-                                '<div class="progress-holder">${progressBar}</div>' +
-                                '</div>' +
-                                '</li>',
-                            item2: '<li class="fileuploader-item">' +
-                                '<div class="fileuploader-item-inner">' +
-                                '<div class="thumbnail-holder">${image}</div>' +
-                                '<div class="actions-holder">' +
-                                '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
-                                '</div>' +
-                                '</div>' +
-                                '</li>',
-                            startImageRenderer: true,
-                            canvasImage: false,
-                            _selectors: {
-                                list: '.fileuploader-items-list',
-                                item: '.fileuploader-item',
-                                start: '.fileuploader-action-start',
-                                retry: '.fileuploader-action-retry',
-                                remove: '.fileuploader-action-remove'
-                            },
-                            onItemShow: function (item, listEl) {
-                                var plusInput = listEl.find('.fileuploader-thumbnails-input');
-
-                                plusInput.insertAfter(item.html);
-
-                                if (item.format == 'image') {
-                                    item.html.find('.fileuploader-item-icon').hide();
-                                }
-                            }
-                        },
-                        afterRender: function (listEl, parentEl, newInputEl, inputEl) {
-                            var plusInput = listEl.find('.fileuploader-thumbnails-input'),
-                                api = $.fileuploader.getInstance(inputEl.get(0));
-
-                            plusInput.on('click', function () {
-                                api.open();
-                            });
-                        },
-
-                        // while using upload option, please set
-                        // startImageRenderer: false
-                        // for a better effect
-                        upload: {
-                            //后台上传图片
-                            url: '<?=site_url("goods/uploadPhoto/".$edit->id)?>',
-                            data: null,
-                            type: 'POST',
-                            enctype: 'multipart/form-data',
-                            start: true,
-                            synchron: true,
-                            beforeSend: null,
-                            onSuccess: function (data, item) {
-                                setTimeout(function () {
-                                    item.html.find('.progress-holder').hide();
-                                    item.renderImage();
-                                }, 400);
-                                // alert('图片上传成功');
-                            },
-                            onError: function (item) {
-                                alert('图片上传出错');
-                                item.html.find('.progress-holder').hide();
-                                item.html.find('.fileuploader-item-icon i').text('Failed!');
-                            },
-                            onProgress: function (data, item) {
-                                // alert('进度条');
-                                var progressBar = item.html.find('.progress-holder');
-
-                                if (progressBar.length > 0) {
-                                    progressBar.show();
-                                    progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
-                                }
-                            }
-                        },
-                        dragDrop: {
-                            container: '.fileuploader-thumbnails-input'
-                        },
-
-                        onRemove: function (item) {
-                            alert('删除商品相册单个图片');
-                            var url = '<?=site_url("goods/removePhoto")?>';
-                            $.post(url, {
-                                pid: item.name
-                            });
-                        },
-
-                    });
-
-                    /*上架时间*/
-                    $("#up_time").datepicker({
-                        language: "zh-CN",
-                        autoclose: true,//选中之后自动隐藏日期选择框
-                        clearBtn: true,//清除按钮
-                        todayBtn: true,//今日按钮
-                        format: "yyyy-mm-dd"//日期格式， 
-                    });
-
-                    /*下架时间*/
-                    $("#down_time").datepicker({
-                        language: "zh-CN",
-                        autoclose: true,//选中之后自动隐藏日期选择框
-                        clearBtn: true,//清除按钮
-                        todayBtn: true,//今日按钮
-                        format: "yyyy-mm-dd"//日期格式， 
-                    });
-
-                    $('.summernote').summernote({
-                        // height: 300,
-                        tabsize: 2,//调用图片上传
-                        callbacks: {
-                            onImageUpload: function (files) {
-                                sendFile(files[0], '.summernote');   //第二个参数要和上面一样
-                            }
-                        }
-                    });
-
-                    /*summernote上传图片*/
-                    function sendFile(file, summernote) {
-                        var formData = new FormData();
-                        formData.append("file", file);
-                        $.ajax({
-                            url: "{{base_url}}upload/summernote",  //upload/summernote 上传图片URL
-                            data: formData,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            type: 'POST',
-                            success: function (data) {
-                                if (data.status) {
-                                    $(summernote).summernote('insertImage', data.image, 'img');
-                                } else {
-                                    console.log(data.error);
-                                    alert('图片上传出错');
-                                }
-                            }
-                        });
+                    if (api.getFiles().length >= api.getOptions().limit) {
+                        plusInput.hide();
                     }
+
+                    plusInput.insertAfter(item.html);
+
+
+                    if (item.format == 'image') {
+                        item.html.find('.fileuploader-item-icon').hide();
+                    }
+                },
+                onItemRemove: function (html, listEl, parentEl, newInputEl, inputEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                        api = $.fileuploader.getInstance(inputEl.get(0));
+
+                    html.children().animate({ 'opacity': 0 }, 200, function () {
+                        setTimeout(function () {
+                            html.remove();
+
+                            if (api.getFiles().length - 1 < api.getOptions().limit) {
+                                plusInput.show();
+                            }
+                        }, 100);
+                    });
+
+                }
+            },
+
+            files: [
+                {
+                    name: '<?=$edit->list_img?>',
+                    type: 'image/jpg',
+                    file: '{{photo.0.external_middle}}',   //这里为数组
+                    data: {
+                        url: '<?=base_url($edit->list_img)?>'
+                    }
+                },
+            ],
+            upload: {
+                //后台上传图片
+                url: '<?=site_url("goods/uploadGoodsImg/".$edit->id)?>',
+                data: null,
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                start: true,
+                synchron: true,
+                beforeSend: null,
+                onSuccess: function (data, item) {
+                    setTimeout(function () {
+                        item.html.find('.progress-holder').hide();
+                        item.renderImage();
+                    }, 400);
+                    // alert('图片上传成功');
+                },
+                onError: function (item) {
+                    alert('图片上传出错');
+                    item.html.find('.progress-holder').hide();
+                    item.html.find('.fileuploader-item-icon i').text('Failed!');
+                },
+                onProgress: function (data, item) {
+                    // alert('进度条');
+                    var progressBar = item.html.find('.progress-holder');
+
+                    if (progressBar.length > 0) {
+                        progressBar.show();
+                        progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
+                    }
+                }
+            },
+            afterRender: function (listEl, parentEl, newInputEl, inputEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                    api = $.fileuploader.getInstance(inputEl.get(0));
+
+                plusInput.on('click', function () {
+                    api.open();
                 });
-            </script>
-            <!-- 中间内容带JS end -->
+            }
+        });
+
+        /*商品相册*/
+        $('input[name="photo"]').fileuploader({
+            extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'],
+            changeInput: ' ',
+            theme: 'thumbnails',
+            enableApi: true,
+            addMore: true,    //true为多文件，false为单个文件
 
 
-            <!-- 中间内容 end -->
+
+            thumbnails: {
+                box: '<div class="fileuploader-items">' +
+                    '<ul class="fileuploader-items-list">' +
+                    '<li class="fileuploader-thumbnails-input"><div class="fileuploader-thumbnails-input-inner">+</div></li>' +
+                    '</ul>' +
+                    '</div>',
+                item: '<li class="fileuploader-item">' +
+                    '<div class="fileuploader-item-inner">' +
+                    '<div class="thumbnail-holder">${image}</div>' +
+                    '<div class="actions-holder">' +
+                    '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                    '</div>' +
+                    '<div class="progress-holder">${progressBar}</div>' +
+                    '</div>' +
+                    '</li>',
+                item2: '<li class="fileuploader-item">' +
+                    '<div class="fileuploader-item-inner">' +
+                    '<div class="thumbnail-holder">${image}</div>' +
+                    '<div class="actions-holder">' +
+                    '<a class="fileuploader-action fileuploader-action-remove" title="Remove"><i class="remove"></i></a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</li>',
+                startImageRenderer: true,
+                canvasImage: false,
+                _selectors: {
+                    list: '.fileuploader-items-list',
+                    item: '.fileuploader-item',
+                    start: '.fileuploader-action-start',
+                    retry: '.fileuploader-action-retry',
+                    remove: '.fileuploader-action-remove'
+                },
+                onItemShow: function (item, listEl) {
+                    var plusInput = listEl.find('.fileuploader-thumbnails-input');
+
+                    plusInput.insertAfter(item.html);
+
+                    if (item.format == 'image') {
+                        item.html.find('.fileuploader-item-icon').hide();
+                    }
+                }
+            },
+            afterRender: function (listEl, parentEl, newInputEl, inputEl) {
+                var plusInput = listEl.find('.fileuploader-thumbnails-input'),
+                    api = $.fileuploader.getInstance(inputEl.get(0));
+
+                plusInput.on('click', function () {
+                    api.open();
+                });
+            },
+
+            // while using upload option, please set
+            // startImageRenderer: false
+            // for a better effect
+            upload: {
+                //后台上传图片
+                url: '<?=site_url("goods/uploadPhoto/".$edit->id)?>',
+                data: null,
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                start: true,
+                synchron: true,
+                beforeSend: null,
+                onSuccess: function (data, item) {
+                    setTimeout(function () {
+                        item.html.find('.progress-holder').hide();
+                        item.renderImage();
+                    }, 400);
+                    // alert('图片上传成功');
+                },
+                onError: function (item) {
+                    alert('图片上传出错');
+                    item.html.find('.progress-holder').hide();
+                    item.html.find('.fileuploader-item-icon i').text('Failed!');
+                },
+                onProgress: function (data, item) {
+                    // alert('进度条');
+                    var progressBar = item.html.find('.progress-holder');
+
+                    if (progressBar.length > 0) {
+                        progressBar.show();
+                        progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
+                    }
+                }
+            },
+            dragDrop: {
+                container: '.fileuploader-thumbnails-input'
+            },
+
+            onRemove: function (item) {
+                alert('删除商品相册单个图片');
+                var url = '<?=site_url("goods/removePhoto")?>';
+                $.post(url, {
+                    pid: item.name
+                });
+            },
+
+        });
+
+        /*上架时间*/
+        $("#up_time").datepicker({
+            language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+            todayBtn: true,//今日按钮
+            format: "yyyy-mm-dd"//日期格式， 
+        });
+
+        /*下架时间*/
+        $("#down_time").datepicker({
+            language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+            todayBtn: true,//今日按钮
+            format: "yyyy-mm-dd"//日期格式， 
+        });
+
+        $('.summernote').summernote({
+            // height: 300,
+            tabsize: 2,//调用图片上传
+            callbacks: {
+                onImageUpload: function (files) {
+                    sendFile(files[0], '.summernote');   //第二个参数要和上面一样
+                }
+            }
+        });
+
+        /*summernote上传图片*/
+        function sendFile(file, summernote) {
+            var formData = new FormData();
+            formData.append("file", file);
+            $.ajax({
+                url: "{{base_url}}upload/summernote",  //upload/summernote 上传图片URL
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function (re) {
+                    if (re.status == 200) {
+                        // alert(re.data.image);
+                        var img="{{base_url}}"+re.data.image;
+                        // alert(img);
+                        // $(summernote).summernote('insertImage', re.data.image, 'img');
+                        $(summernote).summernote('insertImage', img, 'img');
+                    } else {
+                        console.log(re);
+                        alert('图片上传出错');
+                    }
+                    // if (data.status) {
+                    //     $(summernote).summernote('insertImage', data.image, 'img');
+                    // } else {
+                    //     console.log(data.error);
+                    //     alert('图片上传出错');
+                    // }
+                }
+            });
+        }
+    });
+</script>
+<!-- 中间内容带JS end -->
+
+
+<!-- 中间内容 end -->
 {{/inline}}
 {{> (lookup this "parent")}}
