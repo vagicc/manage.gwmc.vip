@@ -261,6 +261,18 @@ diesel::table! {
     }
 }
 
+diesel::table! {
+    site_introduction (id) {
+        id -> Int4,
+        title -> Varchar,
+        seo_title -> Nullable<Varchar>,
+        seo_keywords -> Nullable<Varchar>,
+        seo_description -> Nullable<Varchar>,
+        content -> Nullable<Text>,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
 diesel::allow_tables_to_appear_in_same_query!(
     admins,
     ci_sessions,
@@ -282,4 +294,5 @@ diesel::allow_tables_to_appear_in_same_query!(
     record,
     rights,
     roles,
+    site_introduction,
 );

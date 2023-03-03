@@ -133,7 +133,7 @@ pub fn delete(pk: i32) -> usize {
     match deleted_rows {
         Ok(row) => row,
         Err(e) => {
-            log::error!("admins表删除数据失败：{}", e);
+            log::error!("roles表删除数据失败：{}", e);
             0
         }
     }
@@ -141,7 +141,7 @@ pub fn delete(pk: i32) -> usize {
 
 pub fn modify(pky: i32, data: &NewRole) -> Option<Role> {
     let query = diesel::update(roles.find(pky)).set(data);
-    log::error!(
+    log::debug!(
         "roles表更新数据SQL：{:?}",
         diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
     );
@@ -150,7 +150,7 @@ pub fn modify(pky: i32, data: &NewRole) -> Option<Role> {
     match query.get_result::<Role>(&mut conn) {
         Ok(result) => Some(result),
         Err(err) => {
-            log::error!("admins表修改数据失败：{}", err);
+            log::error!("roles表修改数据失败：{}", err);
             None
         }
     }

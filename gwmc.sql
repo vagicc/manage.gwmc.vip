@@ -1,7 +1,30 @@
 -- 跟我买车 start
 
+-- 站点介绍类统一文章表Site introduction   site_introduction
+CREATE TABLE site_introduction(
+    "id" SERIAL PRIMARY KEY,
+    "title" CHARACTER VARYING(180) NOT NULL,
+  
+    "seo_title" CHARACTER VARYING(255) DEFAULT NULL,
+    "seo_keywords" CHARACTER VARYING(255) DEFAULT NULL,
+    "seo_description" CHARACTER VARYING(255) DEFAULT NULL,
 
--- 车辆推荐 lawsuit_autocar
+    "content" TEXT DEFAULT NULL,
+    "last_time" TIMESTAMP WITHOUT time ZONE DEFAULT clock_timestamp()
+);
+CREATE INDEX idx_site_introduction_title ON site_introduction (title);
+
+COMMENT ON TABLE site_introduction IS '站点介绍类统一文章表';
+COMMENT ON COLUMN site_introduction.id IS '主键ID';
+
+COMMENT ON COLUMN site_introduction.title IS '标题';
+
+COMMENT ON COLUMN site_introduction.seo_title IS 'SEO标题';
+COMMENT ON COLUMN site_introduction.seo_keywords IS 'SEO关键词';
+COMMENT ON COLUMN site_introduction.seo_description IS 'SEO描述';
+
+COMMENT ON COLUMN site_introduction.content IS '内容';
+COMMENT ON COLUMN site_introduction.last_time IS '最后修改时间';
 
 --  法拍详情页：
 
@@ -52,6 +75,7 @@ COMMENT ON COLUMN lawsuit_autocar_photo.type IS '图片类型如：image/jpeg';
 COMMENT ON COLUMN lawsuit_autocar_photo.front_cover IS '是否为封面图';
 -- 车辆视频表
 
+-- 车辆推荐 lawsuit_autocar
 CREATE TABLE lawsuit_autocar(
   "id" SERIAL PRIMARY KEY,
   "title" CHARACTER VARYING(255) NOT NULL,

@@ -1,0 +1,147 @@
+{{#*inline "child"}}
+<div class="panel box-shadow-none content-header">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <h3 class="animated fadeInLeft">网站固定设置</h3>
+            <p class="animated fadeInDown">
+                <a href="{{base_url}}site/introduction">固定文章</a> <span class="fa-angle-right fa"></span> 修改
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="form-element">
+    <div class="col-md-12 padding-0">
+        <div class="col-md-12">
+
+            <div class="panel form-element-padding">
+                <div class="panel-heading">
+                    <a href="javascript:history.back(-1);" class="btn btn-default right">返回</a>
+                    <h4>新发布固定文章</h4>
+
+                </div>
+                <div class="panel-body" style="padding-bottom:30px;">
+                    <div class="col-md-12 panel-body" style="padding-bottom:30px;">
+                        <div class="col-md-12 panel-body">
+                            <form method="post" class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-right">文章标题：</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="title" value="{{edit.title}}" class="form-control">
+                                        <span class="bar">标题不能为空</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-right">SEO标题</label>
+                                    <div class="col-sm-10">
+                                        <input name="seo_title" id="form-field-11" value="{{edit.seo_title}}"
+                                            class="autosize-transition form-control" placeholder="SEO标题">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-right">SEO关键词</label>
+                                    <div class="col-sm-10">
+                                        <input name="seo_keywords" id="form-field-11" value="{{edit.seo_keywords}}"
+                                            class="autosize-transition form-control" placeholder="SEO关键词">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-right">SEO描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="seo_description" id="form-field-11"
+                                            class="autosize-transition form-control"
+                                            placeholder="SEO描述">{{edit.seo_description}}</textarea>
+                                    </div>
+                                </div>
+                                <!-- 		
+							<div class="form-group">
+								<label class="col-sm-2 control-label text-right">文章摘要</label>
+								<div class="col-sm-10">
+									<textarea name="summary" id="form-field-11" class="autosize-transition form-control" placeholder="请输入文章摘要"></textarea>
+								</div>
+							</div> -->
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-right">文章内容</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="summernote" name="content"
+                                            placeholder="请输入文章内容">{{{edit.content}}}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-right"> </label>
+                                    <div class="col-sm-10">
+                                        <!-- <input type="hidden" name="category" id="category" value=""> -->
+
+                                        <button class="btn btn-info btn-success" type="Submit">
+                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                            修改
+                                        </button>
+
+                                        &nbsp; &nbsp; &nbsp;
+                                        <button class="btn" type="reset" onclick="javascript:history.back(-1);">
+                                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                                            取消
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="summernote/summernote.css">
+<script type="text/javascript" src="summernote/summernote.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('.summernote').summernote({
+			// height: 300,
+			tabsize: 2,//调用图片上传
+			callbacks:{
+				onImageUpload:function(files){
+					sendFile(files[0],'.summernote');   //第二个参数要和上面一样
+				}
+			}
+		});
+
+		/*summernote上传图片*/
+	    function sendFile(file,summernote) {
+	        var formData = new FormData();
+	        formData.append("file", file);
+	        $.ajax({
+				url: "{{base_url}}upload/summernote",  //上传图片URL 
+	            data: formData,
+	            cache: false,
+	            contentType: false,
+	            processData: false,
+	            type: 'POST',
+                success: function (re) {
+                    if (re.status == 200) {
+                        // var img="{{base_url}}"+re.data.image;
+                        // $(summernote).summernote('insertImage', img, 'img');
+                        $(summernote).summernote('insertImage', re.data.image, 'img');
+                    } else {
+                        console.log('图片上传出错');
+                        console.log(re);
+                        alert('图片上传出错');
+                    }
+                }  
+	        });
+	    }
+	});
+</script>
+{{/inline}}
+{{> (lookup this "parent")}}
