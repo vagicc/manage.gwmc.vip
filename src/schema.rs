@@ -16,6 +16,20 @@ diesel::table! {
 }
 
 diesel::table! {
+    carousel (id) {
+        id -> Int4,
+        subhead -> Nullable<Varchar>,
+        title -> Varchar,
+        summary -> Nullable<Varchar>,
+        link -> Varchar,
+        path -> Nullable<Varchar>,
+        show -> Nullable<Bool>,
+        sort_order -> Int2,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
+diesel::table! {
     ci_sessions (id) {
         id -> Varchar,
         ip_address -> Inet,
@@ -161,6 +175,17 @@ diesel::table! {
 }
 
 diesel::table! {
+    navbar (id) {
+        id -> Int4,
+        menu -> Varchar,
+        link -> Varchar,
+        show -> Nullable<Bool>,
+        sort_order -> Int2,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
+diesel::table! {
     oauth_access_tokens (access_token) {
         access_token -> Bpchar,
         client_id -> Bpchar,
@@ -275,6 +300,7 @@ diesel::table! {
 
 diesel::allow_tables_to_appear_in_same_query!(
     admins,
+    carousel,
     ci_sessions,
     demo,
     lawsuit_autocar,
@@ -284,6 +310,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     lawsuit_reptile,
     lawsuit_reptile_photo,
     menus,
+    navbar,
     oauth_access_tokens,
     oauth_authorization_codes,
     oauth_clients,
