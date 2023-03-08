@@ -1,4 +1,5 @@
 pub mod admins_handler;
+pub mod carousel_handler;
 pub mod home_handler;
 pub mod introduction_h;
 pub mod lawsuit_autocar_handler;
@@ -9,6 +10,6 @@ pub mod navbar_handler;
 pub mod reptile_handler;
 pub mod rights_handler;
 pub mod role_handler;
+pub mod stock_handler;
 pub mod summernote_h;
 pub mod websockets_handler;
-pub mod carousel_handler;

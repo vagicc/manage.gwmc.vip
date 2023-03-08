@@ -1,5 +1,29 @@
 -- 跟我买车 start
 
+-- 股票涨跌家数  
+CREATE TABLE stock_rise_fall(
+    "id" SERIAL PRIMARY KEY,
+    "record_date" DATE NOT NULL,
+    "week" CHARACTER VARYING(6) DEFAULT NULL,
+    "rise" INTEGER DEFAULT NULL,
+    "fall" INTEGER DEFAULT NULL,
+    "rise_limit" INTEGER DEFAULT NULL,  
+    "limit_drop" INTEGER DEFAULT NULL,
+    "last_time" TIMESTAMP WITHOUT time ZONE DEFAULT clock_timestamp()
+);
+CREATE INDEX idx_stock_rise_fall_record_date ON stock_rise_fall (record_date);
+
+COMMENT ON TABLE stock_rise_fall IS '股票涨跌家数表';
+COMMENT ON COLUMN stock_rise_fall.id IS '主键ID';
+COMMENT ON COLUMN stock_rise_fall.record_date IS '记录日期';
+COMMENT ON COLUMN stock_rise_fall.week IS '星期几';
+COMMENT ON COLUMN stock_rise_fall.rise IS '上涨家数';
+COMMENT ON COLUMN stock_rise_fall.fall IS '下跌家数';
+COMMENT ON COLUMN stock_rise_fall.rise_limit IS '涨停数';
+COMMENT ON COLUMN stock_rise_fall.limit_drop IS '跌停数';
+COMMENT ON COLUMN stock_rise_fall.last_time IS '最后修改时间';
+
+
 -- 导航栏
 CREATE TABLE navbar(
     "id" SERIAL PRIMARY KEY,

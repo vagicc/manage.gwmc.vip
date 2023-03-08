@@ -12,6 +12,7 @@ use crate::routes::reptile_route;
 use crate::routes::rights_route;
 use crate::routes::role_route;
 use crate::routes::site_route;
+use crate::routes::stock_route;
 use crate::routes::upload_route;
 use crate::routes::websockets_route;
 
@@ -41,6 +42,7 @@ pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = war
     let site = site_route::index();
     let navbar = navbar_route::list();
     let carousel = carousel_route::list();
+    let stock = stock_route::list();
 
     let websocket = websockets_route::echo();
 
@@ -60,6 +62,7 @@ pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = war
         .or(site)
         .or(navbar)
         .or(carousel)
+        .or(stock)
         .or(websocket)
         .recover(crate::session::inaccessible);
     routes

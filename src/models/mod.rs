@@ -10,3 +10,4 @@ pub mod navbar_model;
 pub mod rights_model;
 pub mod roles_model;
 pub mod site_introduction_m;
+pub mod stock_rise_fall_m;

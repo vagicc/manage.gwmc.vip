@@ -298,6 +298,28 @@ diesel::table! {
     }
 }
 
+diesel::table! {
+    stock_rise_fall (id) {
+        id -> Int4,
+        record_date -> Date,
+        week -> Nullable<Varchar>,
+        m_rise -> Nullable<Int4>,
+        m_fall -> Nullable<Int4>,
+        m_rise_limit -> Nullable<Int4>,
+        m_limit_drop -> Nullable<Int4>,
+        n_rise -> Nullable<Int4>,
+        n_fall -> Nullable<Int4>,
+        n_rise_limit -> Nullable<Int4>,
+        n_limit_drop -> Nullable<Int4>,
+        e_rise -> Nullable<Int4>,
+        e_fall -> Nullable<Int4>,
+        e_rise_limit -> Nullable<Int4>,
+        e_limit_drop -> Nullable<Int4>,
+        create_time -> Nullable<Timestamp>,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
 diesel::allow_tables_to_appear_in_same_query!(
     admins,
     carousel,
@@ -322,4 +344,5 @@ diesel::allow_tables_to_appear_in_same_query!(
     rights,
     roles,
     site_introduction,
+    stock_rise_fall,
 );

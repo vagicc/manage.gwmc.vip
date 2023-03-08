@@ -10,5 +10,6 @@ pub mod reptile_route;
 pub mod rights_route;
 pub mod role_route;
 pub mod site_route;
+pub mod stock_route;
 pub mod upload_route;
 pub mod websockets_route;
