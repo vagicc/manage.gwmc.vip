@@ -16,6 +16,20 @@ diesel::table! {
 }
 
 diesel::table! {
+    carousel (id) {
+        id -> Int4,
+        subhead -> Nullable<Varchar>,
+        title -> Varchar,
+        summary -> Nullable<Varchar>,
+        link -> Varchar,
+        path -> Nullable<Varchar>,
+        show -> Nullable<Bool>,
+        sort_order -> Int2,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
+diesel::table! {
     ci_sessions (id) {
         id -> Varchar,
         ip_address -> Inet,
@@ -161,6 +175,17 @@ diesel::table! {
 }
 
 diesel::table! {
+    navbar (id) {
+        id -> Int4,
+        menu -> Varchar,
+        link -> Varchar,
+        show -> Nullable<Bool>,
+        sort_order -> Int2,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
+diesel::table! {
     oauth_access_tokens (access_token) {
         access_token -> Bpchar,
         client_id -> Bpchar,
@@ -261,8 +286,43 @@ diesel::table! {
     }
 }
 
+diesel::table! {
+    site_introduction (id) {
+        id -> Int4,
+        title -> Varchar,
+        seo_title -> Nullable<Varchar>,
+        seo_keywords -> Nullable<Varchar>,
+        seo_description -> Nullable<Varchar>,
+        content -> Nullable<Text>,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
+diesel::table! {
+    stock_rise_fall (id) {
+        id -> Int4,
+        record_date -> Date,
+        week -> Nullable<Varchar>,
+        m_rise -> Nullable<Int4>,
+        m_fall -> Nullable<Int4>,
+        m_rise_limit -> Nullable<Int4>,
+        m_limit_drop -> Nullable<Int4>,
+        n_rise -> Nullable<Int4>,
+        n_fall -> Nullable<Int4>,
+        n_rise_limit -> Nullable<Int4>,
+        n_limit_drop -> Nullable<Int4>,
+        e_rise -> Nullable<Int4>,
+        e_fall -> Nullable<Int4>,
+        e_rise_limit -> Nullable<Int4>,
+        e_limit_drop -> Nullable<Int4>,
+        create_time -> Nullable<Timestamp>,
+        last_time -> Nullable<Timestamp>,
+    }
+}
+
 diesel::allow_tables_to_appear_in_same_query!(
     admins,
+    carousel,
     ci_sessions,
     demo,
     lawsuit_autocar,
@@ -272,6 +332,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     lawsuit_reptile,
     lawsuit_reptile_photo,
     menus,
+    navbar,
     oauth_access_tokens,
     oauth_authorization_codes,
     oauth_clients,
@@ -282,4 +343,6 @@ diesel::allow_tables_to_appear_in_same_query!(
     record,
     rights,
     roles,
+    site_introduction,
+    stock_rise_fall,
 );

@@ -1,11 +1,15 @@
 pub mod admins_route;
+pub mod carousel_route;
 pub mod home_route;
 pub mod lawsuit_autocar_route;
 pub mod login_route;
 pub mod logout_route;
 pub mod menus_route;
+pub mod navbar_route;
 pub mod reptile_route;
 pub mod rights_route;
 pub mod role_route;
-pub mod websockets_route;
+pub mod site_route;
+pub mod stock_route;
 pub mod upload_route;
+pub mod websockets_route;

@@ -1,14 +1,18 @@
 use warp::Filter;
 
 use crate::routes::admins_route;
+use crate::routes::carousel_route;
 use crate::routes::home_route;
 use crate::routes::lawsuit_autocar_route;
 use crate::routes::login_route;
 use crate::routes::logout_route;
 use crate::routes::menus_route;
+use crate::routes::navbar_route;
 use crate::routes::reptile_route;
 use crate::routes::rights_route;
 use crate::routes::role_route;
+use crate::routes::site_route;
+use crate::routes::stock_route;
 use crate::routes::upload_route;
 use crate::routes::websockets_route;
 
@@ -35,6 +39,10 @@ pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = war
 
     let reptile = reptile_route::list();
     let lawsuit_autocar = lawsuit_autocar_route::list();
+    let site = site_route::index();
+    let navbar = navbar_route::list();
+    let carousel = carousel_route::list();
+    let stock = stock_route::list();
 
     let websocket = websockets_route::echo();
 
@@ -51,7 +59,11 @@ pub fn all_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = war
         .or(upload)
         .or(reptile)
         .or(lawsuit_autocar)
+        .or(site)
+        .or(navbar)
+        .or(carousel)
+        .or(stock)
         .or(websocket)
-    .recover(crate::session::inaccessible);
+        .recover(crate::session::inaccessible);
     routes
 }

@@ -141,3 +141,17 @@ pub fn now_naive_date_time() -> chrono::NaiveDateTime {
     return now_date_time;
 }
 
+pub fn now_naive_date() -> chrono::NaiveDate {
+    // use chrono::prelude::{Local, NaiveDate, NaiveDateTime};
+    let fmt = "%Y-%m-%d";
+    let now = chrono::prelude::Local::now();
+    let dft = now.format(fmt);
+    let str_date = dft.to_string();
+    // println!("当前时间：{}", str_date);
+    // let now_date_time =
+    //     chrono::prelude::NaiveDateTime::parse_from_str(str_date.as_str(), fmt).unwrap();
+    let now_date = chrono::prelude::NaiveDate::parse_from_str(str_date.as_str(), "%Y-%m-%d").expect("转日期出错？");
+
+    return now_date;
+}
+

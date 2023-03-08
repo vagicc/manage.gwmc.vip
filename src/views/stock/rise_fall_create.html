@@ -1,0 +1,110 @@
+{{#*inline "child"}}
+<div class="panel box-shadow-none content-header">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <h3 class="animated fadeInLeft">股票涨跌</h3>
+            <p class="animated fadeInDown">
+                <a href="{{base_url}}stock/rise_fall">股票涨跌列表</a> <span class="fa-angle-right fa"></span>添加
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="form-element">
+    <div class="col-md-12 padding-0">
+        <div class="col-md-12">
+            <div class="panel form-element-padding">
+                <div class="panel-heading">
+                    <a href="javascript:history.back(-1);" class="btn btn-default right">返回</a>
+                    <h4>新增 </h4>
+                </div>
+                <div class="panel-body" style="padding-bottom:30px;">
+                    <div class="col-md-12">
+                        <form method="post" class="form-horizontal" role="form">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right"> </label>
+                                <div class="col-sm-10">
+                                    <div class="col-sm-12 padding-0">
+                                        <select name="type" class="form-control">
+                                            <option value="morning">早盘</option>
+                                            <option value="noon">午盘</option>
+                                            <option value="evening">收盘</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">上涨家数</label>
+                                <div class="col-sm-10">
+                                    <input type="number" name="rise" placeholder="上涨家数" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">下跌家数</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="fall" placeholder="下跌家数" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">涨停数</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="rise_limit" placeholder="涨停数" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label text-right">跌停数</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="limit_drop" placeholder="跌停数" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="form-group"><label class="col-sm-2 control-label text-right"> </label>
+                                <div class="col-sm-10">
+                                    <div class="col-sm-12 padding-0">
+
+                                        <input class="submit btn btn-danger" type="submit" value="提交">
+                                        &nbsp; &nbsp; &nbsp;
+                                        <input class="btn btn-default" type="reset" value="重置">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="asset/css/bootstrap-switch.css">
+<script src="asset/js/bootstrap-switch.js"></script>
+<script type="text/javascript">
+    $("#show").bootstrapSwitch({
+        onText: '显示',
+        offText: '隐藏',
+        onColor: "info",
+        offColor: "danger",
+        size: "small",
+        onSwitchChange: function (event, state) {
+            if (state == true) {
+                // alert('显示');
+                $("input[name='show']").val("true");
+            } else {
+                // alert('不显示');
+                $("input[name='show']").val("false");
+            }
+        }
+    });
+
+</script>
+
+{{/inline}}
+{{> (lookup this "parent")}}
