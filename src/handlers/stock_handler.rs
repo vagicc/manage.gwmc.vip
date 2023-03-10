@@ -1,6 +1,7 @@
 use crate::models::stock_rise_fall_m;
 use crate::template::to_html_single;
 use crate::template::view;
+use chrono::Datelike;
 use handlebars::to_json;
 use serde_json::value::Map;
 use warp::{Rejection, Reply};
@@ -122,13 +123,15 @@ pub async fn new_rise_fall(
 
             let mut insert_id: i32 = 0;
             let record_date = crate::common::now_naive_date();
+            let week_num=record_date.weekday().num_days_from_monday();
+            // | `Mon` | `Tue` | `Wed` | `Thu` | `Fri` | `Sat` | `Sun`
+            // |Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday
+            // | 星期一 | 星期二 | 星期三 | 星期四 | 星期五 | 星期六 | 星期日
+            // | 0     | 1     | 2     | 3     | 4     | 5     | 6
+            let week_arr = ["星期一","星期二","星期三","星期四","星期五","星期六","星期日"];
+            let week=week_arr[week_num as usize].to_string();
+            println!("今天是星期几：{}", week);
 
-            let week = record_date.week(chrono::Weekday::Mon);
-            println!(" 星期： {:?}", week);
-            let days = week.days();
-            println!(" 星期： {:?}", days);
-
-            let week = "星期几".to_string();
             if post.r#type.eq("morning") {
                 let mut new_data = stock_rise_fall_m::NewStockRiseFall {
                     record_date: record_date,
