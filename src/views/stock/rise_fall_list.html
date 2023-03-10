@@ -79,19 +79,24 @@
                                 </td>
                                 <td>
                                     {{#if @first}}
+                                        {{week}}<br>
                                         今日({{record_date}})
                                     {{else}}
                                         {{#if (eq @index 1)}}
+                                        {{week}}<br>
                                         昨日（{{record_date}}）
                                         {{else}}
+                                        {{week}}<br>
                                         {{record_date}}
                                         {{/if}}
                                     {{/if}}
                                 </td>
                                 <td>
+                                    {{#if (or m_rise m_fall)}}
                                     <b class="hidden-md hidden-lg">早盘：</b>
                                     涨：{{m_rise}} 跌：{{m_fall}}
                                     <br>涨停：{{m_rise_limit}} 跌停：{{m_limit_drop}}
+                                    {{/if}}
                                 </td>
                                 <td>
                                     {{#if (and n_rise n_fall)}}
@@ -99,8 +104,10 @@
                                     涨：{{n_rise}} 跌：{{n_fall}}
                                     <br>涨停：{{n_rise_limit}} 跌停：{{n_limit_drop}}
                                     {{else}}
+                                    {{#if (ne @index 1)}}
                                     <a href="{{../base_url}}stock/rise_fall/create/{{id}}" class="label label-info">新增</a>
                                     <!-- <span class="label label-info">新增</span> -->
+                                    {{/if}}
                                     {{/if}}
                                 </td>
                                 <td>
@@ -109,8 +116,10 @@
                                     涨：{{e_rise}} 跌：{{e_fall}}
                                     <br>涨停：{{e_rise_limit}} 跌停：{{e_limit_drop}}
                                     {{else}}
+                                    {{#if (ne @index 1)}}
                                     <a href="{{../base_url}}stock/rise_fall/create/{{id}}" class="label label-info">新增</a>
                                     <!-- <span class="label label-info">新增</span> -->
+                                    {{/if}}
                                     {{/if}}
                                 </td>
                                 <!-- <td>
