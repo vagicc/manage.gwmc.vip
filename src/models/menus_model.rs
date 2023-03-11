@@ -6,7 +6,7 @@ use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
 /* 表查询插入结构体(Insertable：插入，Queryable：查询，AsChangeset：更新) */
-#[derive(Debug, Clone, Queryable, Serialize)]
+#[derive(Debug, Clone, Queryable, Serialize, Deserialize)]
 pub struct Menu {
     pub id: i32,
     pub order_by: i16,
@@ -147,7 +147,7 @@ pub fn delete(pky: i32) -> usize {
 }
 
 //后台左右菜单
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LeftMenu {
     pub id: i32,
     pub order_by: i16,
