@@ -150,8 +150,49 @@ pub fn now_naive_date() -> chrono::NaiveDate {
     // println!("当前时间：{}", str_date);
     // let now_date_time =
     //     chrono::prelude::NaiveDateTime::parse_from_str(str_date.as_str(), fmt).unwrap();
-    let now_date = chrono::prelude::NaiveDate::parse_from_str(str_date.as_str(), "%Y-%m-%d").expect("转日期出错？");
+    let now_date = chrono::prelude::NaiveDate::parse_from_str(str_date.as_str(), "%Y-%m-%d")
+        .expect("转日期出错？");
 
     return now_date;
 }
 
+pub fn get_menus_cache(role_id: i32) -> Vec<crate::models::menus_model::LeftMenu> {
+    use crate::models::menus_model;
+    use std::fs;
+
+    let cache_file = format!(
+        "{}menus_{}.json",
+        crate::constants::MENU_CACHE_PATH,
+        role_id
+    );
+
+    match fs::read_to_string(&cache_file) {
+        Ok(conter) => serde_json::from_str::<Vec<menus_model::LeftMenu>>(&conter)
+            .expect("菜单缓存文件转结构体出错"),
+        Err(err) => {
+            log::warn!("读取菜单缓存文件出错：{:#?}", err);
+            match crate::models::menus_model::role_left_menus(role_id) {
+                Some(menu_arr) => {
+                    // 再写入缓存文件
+                    use std::fs::File;
+                    use std::io::Write;
+                    let mut output = File::create(cache_file).expect("创建菜单缓存文件出失败");
+                    // let serialized = serde_json::to_string(&navbar).unwrap(); //转换为json字符
+                    // let deserialized: Point = serde_json::from_str(&serialized).unwrap();
+                    write!(
+                        output,
+                        "{}",
+                        serde_json::to_string(&menu_arr).expect("结构体转为json字符出错")
+                    )
+                    .unwrap();
+                    menu_arr
+                }
+                None => {
+                    log::warn!("无菜单");
+                    let s: Vec<menus_model::LeftMenu> = Vec::new();
+                    s
+                }
+            }
+        }
+    }
+}

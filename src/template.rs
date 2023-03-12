@@ -25,7 +25,7 @@ pub fn view(name: &str, mut data: Map<String, Json>, session: crate::session::Se
 
     data.insert(
         "left_menus".to_string(),
-        to_json(crate::models::menus_model::role_left_menus(
+        to_json(crate::common::get_menus_cache(
             session.admin.role.unwrap_or(1),
         )),
     );

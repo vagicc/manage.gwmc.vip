@@ -147,3 +147,16 @@ pub fn find_navbar(pky: i32) -> Option<Navbar> {
         }
     }
 }
+
+// 返回可展示的导航栏
+pub fn show_navbar() -> Vec<Navbar> {
+    let query = navbar.filter(show.eq(true)).order_by(sort_order.asc());
+    let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
+    log::warn!("show_navbar查询SQL：{:?}", sql);
+    let mut connection = get_connection();
+    query.get_results::<Navbar>(&mut connection).unwrap_or({
+        // log::warn!("show_navbar查无数据");
+        let default: Vec<Navbar> = Vec::new();
+        default
+    })
+}
