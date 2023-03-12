@@ -183,7 +183,7 @@ pub fn list_page(
         .order_by(id.desc())
         .limit(limit) //取10条数据
         .offset(offset); //从第0条开始;
-    log::warn!(
+    log::debug!(
         "lawsuit_reptile分页查询SQL：{:#?}",
         diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
     );

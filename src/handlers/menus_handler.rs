@@ -1,5 +1,6 @@
+use crate::common::remove_menus_cache;
 use crate::models::menus_model;
-use crate::template::{view, to_html_single};
+use crate::template::{to_html_single, view};
 use handlebars::to_json;
 use serde_json::value::Map;
 use warp::{Rejection, Reply};
@@ -23,7 +24,11 @@ pub async fn list(
     data.insert("parent_data".to_string(), to_json(parent_data)); //
     data.insert("parent_id".to_string(), to_json(parent_id)); //
 
-    Ok(warp::reply::html(view("menus/menus_list.html", data, session)))
+    Ok(warp::reply::html(view(
+        "menus/menus_list.html",
+        data,
+        session,
+    )))
 }
 
 pub async fn create_html(
@@ -93,6 +98,8 @@ pub async fn do_new(
             if insert_id == 0 {
                 // return 成败了
             }
+            remove_menus_cache(); //删除菜单缓存
+
             // return 成功了
         }
         Err(e) => {
@@ -151,6 +158,8 @@ pub async fn do_edit(
             if updated.is_none() {
                 // return //更新出错
             }
+            remove_menus_cache(); //删除菜单缓存
+
             // return //更新成功
         }
         Err(message) => {
@@ -165,6 +174,9 @@ pub async fn do_edit(
 
 pub async fn delete(id: i32, session: crate::session::Session) -> Result<impl Reply, Rejection> {
     let _ = menus_model::delete(id);
+
+    remove_menus_cache(); //删除菜单缓存
+
     // 跳转到列表页
     Ok(warp::redirect::see_other(warp::http::Uri::from_static(
         "/menus/index",
@@ -179,6 +191,9 @@ pub async fn expurgate(
     for id in ids {
         let _deleted_rows = menus_model::delete(id);
     }
+
+    remove_menus_cache(); //删除菜单缓存
+
     // 跳转到列表页
     Ok(warp::redirect::see_other(warp::http::Uri::from_static(
         "/menus/index",

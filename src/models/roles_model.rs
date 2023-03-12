@@ -37,7 +37,7 @@ impl NewRole {
 pub fn get_all_role() -> Option<Vec<Role>> {
     let query = roles.order_by(id.desc());
     let sql = diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string();
-    log::error!("get_all_role查询SQL：{:?}", sql);
+    log::debug!("get_all_role查询SQL：{:?}", sql);
 
     let mut connection = get_connection();
     match query.get_results::<Role>(&mut connection) {

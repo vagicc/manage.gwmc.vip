@@ -196,3 +196,36 @@ pub fn get_menus_cache(role_id: i32) -> Vec<crate::models::menus_model::LeftMenu
         }
     }
 }
+
+pub fn remove_menus_cache() {
+    let all_roles = crate::models::roles_model::get_all_role();
+    match all_roles {
+        Some(roles) => {
+            for role in roles {
+                let cache_file = format!(
+                    "{}menus_{}.json",
+                    crate::constants::MENU_CACHE_PATH,
+                    role.id
+                );
+                match std::fs::remove_file(cache_file) {
+                    Ok(k) => {
+                        log::debug!("菜单缓存文件删除成功");
+                    }
+                    Err(e) => {
+                        // type_v(e);
+                        //   变量值：Os { code: 2, kind: NotFound, message: "No such file or directory" }  =>类型： std::io::error::Error
+                        if e.kind() != std::io::ErrorKind::NotFound {
+                            log::error!("删除失败{:#?}", e);
+                        }
+                    }
+                }
+            }
+        }
+        None => {}
+    }
+    // let cache_file = format!("{}menus_*.json", crate::constants::MENU_CACHE_PATH,);
+    // std::fs::remove_file(cache_file).expect("删除缓存失败");
+    /*
+    删除缓存失败: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+     */
+}
