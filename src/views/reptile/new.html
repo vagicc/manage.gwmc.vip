@@ -45,7 +45,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div id="html_display" class="form-group">
                                 <label class="col-sm-2 control-label text-right">HTML</label>
                                 <div class="col-sm-10">
                                     <textarea name="html_string" id="form-field-11"
@@ -97,10 +97,14 @@
             onSwitchChange: function (event, state) {
                 if (state == true) {
                     // alert('显示');
+                    //style="display:block;"
                     $("input[name='belong']").val("1");
+                    $("#html_display").css('display', 'block');
                 } else {
                     // alert('不显示');
+                    //style="display: none"
                     $("input[name='belong']").val("2");
+                    $("#html_display").css('display', 'none');
                 }
             }
         });
