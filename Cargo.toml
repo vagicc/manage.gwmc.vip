@@ -15,7 +15,7 @@ authors = ["跟我买车技术支持：临来笑笑生 <luck@elapse.date>"]
 
 #tokio = { version = "1.21.2", features = ["full"] }
 tokio = { version = "1.23.0", features = ["macros", "rt-multi-thread","fs"] }
-warp = { version = "0.3.3", features = ["tls","multipart","websocket"] }
+warp = { version = "0.3.4", features = ["tls","multipart","websocket"] }
 
 tokio-stream = "0.1.11"
 # warp上传文件需要与websocket中使用到futures_util
