@@ -32,6 +32,17 @@ pub async fn create_html(session: crate::session::Session) -> Result<impl Reply,
     Ok(warp::reply::html(html)) //直接返回html
 }
 
+pub async fn create_noon_and_evening_html(
+    id: i32,
+    r#type: String,
+    session: crate::session::Session,
+) -> Result<impl Reply, Rejection> {
+    let mut data = Map::new();
+    data.insert("stock_type".to_string(), to_json(r#type)); //
+    let html = view("stock/rise_fall_create.html", data, session);
+    Ok(warp::reply::html(html)) //直接返回html
+}
+
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct RiseFallPost {
     /*
@@ -56,6 +67,7 @@ impl RiseFallPost {
 
 pub async fn create_noon_and_evening(
     id: i32,
+    r#type: String,
     post: RiseFallPost,
     session: crate::session::Session,
 ) -> Result<impl Reply, Rejection> {
@@ -123,13 +135,21 @@ pub async fn new_rise_fall(
 
             let mut insert_id: i32 = 0;
             let record_date = crate::common::now_naive_date();
-            let week_num=record_date.weekday().num_days_from_monday();
+            let week_num = record_date.weekday().num_days_from_monday();
             // | `Mon` | `Tue` | `Wed` | `Thu` | `Fri` | `Sat` | `Sun`
             // |Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday
             // | 星期一 | 星期二 | 星期三 | 星期四 | 星期五 | 星期六 | 星期日
             // | 0     | 1     | 2     | 3     | 4     | 5     | 6
-            let week_arr = ["星期一","星期二","星期三","星期四","星期五","星期六","星期日"];
-            let week=week_arr[week_num as usize].to_string();
+            let week_arr = [
+                "星期一",
+                "星期二",
+                "星期三",
+                "星期四",
+                "星期五",
+                "星期六",
+                "星期日",
+            ];
+            let week = week_arr[week_num as usize].to_string();
             println!("今天是星期几：{}", week);
 
             if post.r#type.eq("morning") {
