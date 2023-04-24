@@ -43,17 +43,22 @@ pub fn add() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection>
         .and(warp::path("rise_fall"))
         .and(warp::path("create"))
         .and(warp::path::param())
+        .and(warp::path::param::<String>())
         .and(warp::path::end())
         .and(crate::session::with_session())
-        .and_then(|id: i32, session: crate::session::Session| async {
-            stock_handler::create_html(session).await
-        });
+        // .and_then(
+        //     |id: i32, idtype: String, session: crate::session::Session| async {
+        //         stock_handler::create_html(session).await
+        //     },
+        // );
+        .and_then(stock_handler::create_noon_and_evening_html);
 
     let noon_and_evening = warp::post()
         .and(warp::path("stock"))
         .and(warp::path("rise_fall"))
         .and(warp::path("create"))
-        .and(warp::path::param())
+        .and(warp::path::param::<i32>())
+        .and(warp::path::param::<String>())
         .and(warp::path::end())
         .and(warp::body::form())
         .and(crate::session::with_session())

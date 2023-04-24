@@ -105,7 +105,7 @@
                                     <br>涨停：{{n_rise_limit}} 跌停：{{n_limit_drop}}
                                     {{else}}
                                     {{#if (ne @index 1)}}
-                                    <a href="{{../base_url}}stock/rise_fall/create/{{id}}" class="label label-info">新增</a>
+                                    <a href="{{../base_url}}stock/rise_fall/create/{{id}}/noon" class="label label-info">新增</a>
                                     <!-- <span class="label label-info">新增</span> -->
                                     {{/if}}
                                     {{/if}}
@@ -117,7 +117,7 @@
                                     <br>涨停：{{e_rise_limit}} 跌停：{{e_limit_drop}}
                                     {{else}}
                                     {{#if (ne @index 1)}}
-                                    <a href="{{../base_url}}stock/rise_fall/create/{{id}}" class="label label-info">新增</a>
+                                    <a href="{{../base_url}}stock/rise_fall/create/{{id}}/evening" class="label label-info">新增</a>
                                     <!-- <span class="label label-info">新增</span> -->
                                     {{/if}}
                                     {{/if}}

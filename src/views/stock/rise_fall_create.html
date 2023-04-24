@@ -28,8 +28,8 @@
                                     <div class="col-sm-12 padding-0">
                                         <select name="type" class="form-control">
                                             <option value="morning">早盘</option>
-                                            <option value="noon">午盘</option>
-                                            <option value="evening">收盘</option>
+                                            <option value="noon" {{#if (eq stock_type "noon")}}selected{{/if}} >午盘</option>
+                                            <option value="evening" {{#if (eq stock_type "evening")}}selected{{/if}}>收盘</option> 
                                         </select>
                                     </div>
                                 </div>
