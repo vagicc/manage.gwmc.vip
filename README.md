@@ -22,4 +22,18 @@ psql -h 128.14.229.27 -U postgres -d gwmc_160 -f gwmc.bf.2020.10.27.sql
 一般来说不用加-C与-c，用默认来备份就行
 
 获取A股行情数据方法:https://javaforall.cn/127821.html
- 
+ 取得实时的A股:https://q.10jqka.com.cn
+涨跌分布
+上涨：2475只 下跌：2864只
+涨跌停
+涨停：63只 跌停：53只
+API：https://q.10jqka.com.cn/api.php?t=indexflash&
+curl 'https://q.10jqka.com.cn/api.php?t=indexflash&' \
+  -H 'sec-ch-ua: "Chromium";v="94", ";Not A Brand";v="99"' \
+  -H 'Accept: */*' \
+  -H 'Referer: https://q.10jqka.com.cn/' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.114 Safari/537.36' \
+  -H 'sec-ch-ua-platform: "Linux"' \
+  --compressed
+  
